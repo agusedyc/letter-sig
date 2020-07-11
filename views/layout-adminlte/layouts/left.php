@@ -34,13 +34,25 @@
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    ['label' => 'Surat Masuk', 'icon' => 'file', 'url' => ['/surat-masuk/index']],
+                    ['label' => 'Disposisi', 'icon' => 'file', 'url' => ['/disposisi/index']],
+                    [
+                        'label' => 'Master',
+                        'icon' => 'dashboard',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Jabatan', 'icon' => 'file-code-o', 'url' => ['/jabatan/index'],],
+                            ['label' => 'Keamanan', 'icon' => 'file-code-o', 'url' => ['/keamanan/index'],],
+                            ['label' => 'Kecepatan', 'icon' => 'file-code-o', 'url' => ['/kecepatan/index'],],
+                        ],
+                    ],
                     [
                         'label' => 'Some tools',
                         'icon' => 'share',
                         'url' => '#',
                         'items' => [
                             ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
+                            ['label' => 'Dependencyebug', 'icon' => 'dashboard', 'url' => ['/debug'],],
                             [
                                 'label' => 'Level One',
                                 'icon' => 'circle-o',

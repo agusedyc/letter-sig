@@ -23,8 +23,8 @@ $config = [
             // 'user/registration/*',
             // 'user/register',
             // 'site/index',
-            'site/*',
-            // 'site/login',
+            // 'site/*',
+            'site/login',
             // dev Mode
             'gii/*',
             'debug/*',
