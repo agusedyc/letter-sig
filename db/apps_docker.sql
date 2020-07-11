@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb
--- Generation Time: Jul 11, 2020 at 07:52 AM
+-- Generation Time: Jul 11, 2020 at 10:03 AM
 -- Server version: 10.3.18-MariaDB-1:10.3.18+maria~bionic
 -- PHP Version: 7.2.22
 
@@ -107,12 +107,11 @@ CREATE TABLE `auth_rule` (
 CREATE TABLE `disposisi` (
   `id` int(10) NOT NULL,
   `tgl_terima` int(11) NOT NULL,
-  `id_user` int(10) NOT NULL,
+  `tujuan_id` int(10) NOT NULL,
   `ringkas_dispo` varchar(50) NOT NULL,
   `keterangan` varchar(100) NOT NULL,
   `id_keamanan` int(5) NOT NULL,
-  `id_kecepatan` int(5) NOT NULL,
-  `id_dispo` int(10) NOT NULL
+  `id_kecepatan` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -126,6 +125,13 @@ CREATE TABLE `jabatan` (
   `nama_jabatan` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `jabatan`
+--
+
+INSERT INTO `jabatan` (`id`, `nama_jabatan`) VALUES
+(1, 'Nama Jabatan');
+
 -- --------------------------------------------------------
 
 --
@@ -134,8 +140,15 @@ CREATE TABLE `jabatan` (
 
 CREATE TABLE `keamanan` (
   `id` int(10) NOT NULL,
-  `keamanan` int(11) NOT NULL
+  `keamanan` varchar(100) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `keamanan`
+--
+
+INSERT INTO `keamanan` (`id`, `keamanan`) VALUES
+(1, 'Rahasia');
 
 -- --------------------------------------------------------
 
@@ -147,6 +160,13 @@ CREATE TABLE `kecepatan` (
   `id` int(10) NOT NULL,
   `kecepatan` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kecepatan`
+--
+
+INSERT INTO `kecepatan` (`id`, `kecepatan`) VALUES
+(1, 'Segera');
 
 -- --------------------------------------------------------
 
@@ -258,14 +278,15 @@ INSERT INTO `route` (`name`, `alias`, `type`, `status`) VALUES
 
 CREATE TABLE `surat_masuk` (
   `id` int(100) NOT NULL,
+  `tujuan_dispo_id` int(100) NOT NULL DEFAULT 0,
   `no_surat` int(100) NOT NULL,
   `asal_surat` varchar(100) NOT NULL,
   `ringkas_surat` varchar(300) NOT NULL,
   `keterangan` varchar(100) NOT NULL,
-  `tgl_surat` int(100) NOT NULL,
-  `tgl_terima` int(100) NOT NULL,
+  `tgl_surat` varchar(50) NOT NULL,
+  `tgl_terima` varchar(50) NOT NULL,
   `file` varchar(300) NOT NULL,
-  `path_file` varchar(255) NOT NULL,
+  `path_file` varchar(300) DEFAULT NULL,
   `id_keamanan` int(5) NOT NULL,
   `id_kecepatan` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -297,7 +318,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `jabatan_id`, `nama_lengkap`, `nip`, `username`, `password`, `level_user`, `status`, `last_login_at`, `auth_key`, `verification_token`, `created_at`, `updated_at`) VALUES
-(2, NULL, 'Nama Lengkap', '123456789123456789', 'admin', '$2y$13$ZlsGrxmMKYQ9EXUXO/8MEe5FGIkptdVAOQ4L7I1.m4Vp1L3cCN562', NULL, 0, NULL, NULL, NULL, 1594451736, 1594452624);
+(2, NULL, 'Nama Lengkap', '123456789123456789', 'admin', '$2y$13$ZlsGrxmMKYQ9EXUXO/8MEe5FGIkptdVAOQ4L7I1.m4Vp1L3cCN562', NULL, 10, NULL, NULL, NULL, 1594451736, 1594452624);
 
 --
 -- Indexes for dumped tables
@@ -335,7 +356,10 @@ ALTER TABLE `auth_rule`
 -- Indexes for table `disposisi`
 --
 ALTER TABLE `disposisi`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_disposisi_user` (`tujuan_id`),
+  ADD KEY `FK_disposisi_keamanan` (`id_keamanan`),
+  ADD KEY `FK_disposisi_kecepatan` (`id_kecepatan`);
 
 --
 -- Indexes for table `jabatan`
@@ -377,7 +401,10 @@ ALTER TABLE `route`
 -- Indexes for table `surat_masuk`
 --
 ALTER TABLE `surat_masuk`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_surat_masuk_user` (`tujuan_dispo_id`),
+  ADD KEY `FK_surat_masuk_keamanan` (`id_keamanan`),
+  ADD KEY `FK_surat_masuk_kecepatan` (`id_kecepatan`);
 
 --
 -- Indexes for table `user`
@@ -399,19 +426,19 @@ ALTER TABLE `disposisi`
 -- AUTO_INCREMENT for table `jabatan`
 --
 ALTER TABLE `jabatan`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `keamanan`
 --
 ALTER TABLE `keamanan`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `kecepatan`
 --
 ALTER TABLE `kecepatan`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `publickey`
@@ -453,6 +480,22 @@ ALTER TABLE `auth_item`
 ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `disposisi`
+--
+ALTER TABLE `disposisi`
+  ADD CONSTRAINT `FK_disposisi_keamanan` FOREIGN KEY (`id_keamanan`) REFERENCES `keamanan` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_disposisi_kecepatan` FOREIGN KEY (`id_kecepatan`) REFERENCES `kecepatan` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_disposisi_user` FOREIGN KEY (`tujuan_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `surat_masuk`
+--
+ALTER TABLE `surat_masuk`
+  ADD CONSTRAINT `FK_surat_masuk_keamanan` FOREIGN KEY (`id_keamanan`) REFERENCES `keamanan` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_surat_masuk_kecepatan` FOREIGN KEY (`id_kecepatan`) REFERENCES `kecepatan` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_surat_masuk_user` FOREIGN KEY (`tujuan_dispo_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
