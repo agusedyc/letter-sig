@@ -32,35 +32,46 @@
                 'items' => [
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => Yii::t('app', 'User'), 'icon' => 'user', 'url' => ['/user/index']],
-                    // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
-                    // ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    // [
-                    //     'label' => 'Some tools',
-                    //     'icon' => 'share',
-                    //     'url' => '#',
-                    //     'items' => [
-                    //         ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                    //         ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
-                    //         [
-                    //             'label' => 'Level One',
-                    //             'icon' => 'circle-o',
-                    //             'url' => '#',
-                    //             'items' => [
-                    //                 ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-                    //                 [
-                    //                     'label' => 'Level Two',
-                    //                     'icon' => 'circle-o',
-                    //                     'url' => '#',
-                    //                     'items' => [
-                    //                         ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                    //                         ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                    //                     ],
-                    //                 ],
-                    //             ],
-                    //         ],
-                    //     ],
-                    // ],
+                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
+                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    ['label' => 'Surat Masuk', 'icon' => 'file', 'url' => ['/surat-masuk/index']],
+                    ['label' => 'Disposisi', 'icon' => 'file', 'url' => ['/disposisi/index']],
+                    [
+                        'label' => 'Master',
+                        'icon' => 'dashboard',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Jabatan', 'icon' => 'file-code-o', 'url' => ['/jabatan/index'],],
+                            ['label' => 'Keamanan', 'icon' => 'file-code-o', 'url' => ['/keamanan/index'],],
+                            ['label' => 'Kecepatan', 'icon' => 'file-code-o', 'url' => ['/kecepatan/index'],],
+                        ],
+                    ],
+                    [
+                        'label' => 'Some tools',
+                        'icon' => 'share',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                            ['label' => 'Dependencyebug', 'icon' => 'dashboard', 'url' => ['/debug'],],
+                            [
+                                'label' => 'Level One',
+                                'icon' => 'circle-o',
+                                'url' => '#',
+                                'items' => [
+                                    ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
+                                    [
+                                        'label' => 'Level Two',
+                                        'icon' => 'circle-o',
+                                        'url' => '#',
+                                        'items' => [
+                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ]
         ) ?>

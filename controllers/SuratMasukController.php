@@ -83,8 +83,12 @@ class SuratMasukController extends Controller
                 $image->saveAs($path.'/'.$image->name);
                 $model->file = $path.'/'.$image->name;
             }
-            if ($model->save(false)) {
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);   
+            }else{
+                echo '<pre>';
+                print_r($model->errors);
+                echo '</pre>';
             }
         }
 
