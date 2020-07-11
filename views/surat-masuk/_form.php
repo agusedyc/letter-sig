@@ -1,5 +1,6 @@
 <?php
 
+use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -75,9 +76,27 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'no_surat')->textInput() ?>
 
-    <?= $form->field($model, 'tgl_surat')->textInput() ?>
+    <!-- <?= $form->field($model, 'tgl_surat')->textInput() ?> -->
 
-    <?= $form->field($model, 'tgl_terima')->textInput() ?>
+    <?= $form->field($model, 'tgl_surat')->widget(DatePicker::classname(), [
+        'options' => ['placeholder' => 'Enter date ...'],
+        'pluginOptions' => [
+            'autoclose'=>true,
+            'format' => 'dd-mm-yyyy',
+            'todayHighlight' => true
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'tgl_terima')->widget(DatePicker::classname(), [
+        'options' => ['placeholder' => 'Enter date ...'],
+        'pluginOptions' => [
+            'autoclose'=>true,
+            'format' => 'dd-mm-yyyy',
+            'todayHighlight' => true
+        ],
+    ]); ?>
+
+    <!-- <?= $form->field($model, 'tgl_terima')->textInput() ?> -->
 
     <?= $form->field($model, 'asal_surat')->textInput(['maxlength' => true]) ?>
 

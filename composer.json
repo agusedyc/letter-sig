@@ -22,7 +22,8 @@
         "hscstudio/yii2-mimin": "~1.1.5",
         "mdmsoft/yii2-autonumber": "~1.0",
         "kartik-v/yii2-field-range": "*",
-        "tecnickcom/tcpdf": "^6.3"
+        "tecnickcom/tcpdf": "^6.3",
+        "kartik-v/yii2-widget-datepicker": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -10,8 +10,10 @@ use app\models\SuratMasukSearch;
 use app\models\User;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * SuratMasukController implements the CRUD actions for SuratMasuk model.
@@ -73,7 +75,7 @@ class SuratMasukController extends Controller
         $keamanan = ArrayHelper::map(Keamanan::find()->asArray()->all(), 'id', 'keamanan');
         $kecepatan = ArrayHelper::map(Kecepatan::find()->asArray()->all(), 'id', 'kecepatan');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
             $image = UploadedFile::getInstance($model, 'file');
             if (!empty($image) && $image->size !== 0) {
                 $path = 'uploads/surat/';
@@ -81,7 +83,7 @@ class SuratMasukController extends Controller
                 $image->saveAs($path.'/'.$image->name);
                 $model->file = $path.'/'.$image->name;
             }
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);   
             }
         }
