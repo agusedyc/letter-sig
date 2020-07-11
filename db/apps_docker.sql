@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb
--- Generation Time: Jul 11, 2020 at 06:38 AM
+-- Generation Time: Jul 11, 2020 at 07:52 AM
 -- Server version: 10.3.18-MariaDB-1:10.3.18+maria~bionic
 -- PHP Version: 7.2.22
 
@@ -33,6 +33,13 @@ CREATE TABLE `auth_assignment` (
   `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `auth_assignment`
+--
+
+INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
+('Administrator', '2', 1594451741);
 
 -- --------------------------------------------------------
 
@@ -271,18 +278,26 @@ CREATE TABLE `surat_masuk` (
 
 CREATE TABLE `user` (
   `id` int(30) NOT NULL,
-  `jabatan_id` int(20) NOT NULL,
-  `nama_lengkap` varchar(100) NOT NULL,
-  `nip` int(50) NOT NULL,
-  `username` int(50) NOT NULL,
+  `jabatan_id` int(20) DEFAULT NULL,
+  `nama_lengkap` varchar(100) DEFAULT NULL,
+  `nip` varchar(20) DEFAULT NULL,
+  `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `level_user` int(1) NOT NULL,
+  `level_user` int(1) DEFAULT NULL,
   `status` int(2) NOT NULL,
-  `auth_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `last_login_at` int(11) DEFAULT NULL,
+  `auth_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `verification_token` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL,
-  `last_login_at` int(11) DEFAULT NULL
+  `updated_at` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `jabatan_id`, `nama_lengkap`, `nip`, `username`, `password`, `level_user`, `status`, `last_login_at`, `auth_key`, `verification_token`, `created_at`, `updated_at`) VALUES
+(2, NULL, 'Nama Lengkap', '123456789123456789', 'admin', '$2y$13$ZlsGrxmMKYQ9EXUXO/8MEe5FGIkptdVAOQ4L7I1.m4Vp1L3cCN562', NULL, 0, NULL, NULL, NULL, 1594451736, 1594452624);
 
 --
 -- Indexes for dumped tables
@@ -414,7 +429,7 @@ ALTER TABLE `surat_masuk`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
