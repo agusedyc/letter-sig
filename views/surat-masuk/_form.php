@@ -34,46 +34,21 @@ use yii\widgets\ActiveForm;
 
     <!-- <?= $form->field($model, 'tujuan_dispo_id')->textInput() ?> -->
 
-    <div class="form-group">
-        <label class="col-lg-3 control-label">Keamanan</label>
-        <div class="col-lg-9">
-            <?php 
-                echo Select2::widget([
-                    'name' => 'id_keamanan',
-                    'data' => $keamanan,
-                    'value' => $model->id_keamanan,
-                    'options' => [
-                        'placeholder' => 'Select ...',
-                        // 'class' => 'form-control',
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-             ?>
-        </div>
-    </div>
+    <?= $form->field($model, 'id_keamanan')->widget(Select2::classname(), [
+    'data' => $keamanan,
+    'options' => ['placeholder' => 'Select ...'],
+    'pluginOptions' => [
+        'allowClear' => true
+    ],
+]); ?>
 
-    <div class="form-group">
-        <label class="col-lg-3 control-label">Kecepatan</label>
-        <div class="col-lg-9">
-            <?php 
-                echo Select2::widget([
-                    'name' => 'id_kecepatan',
-                    'data' => $kecepatan,
-                    'value' => $model->id_kecepatan,
-                    'options' => [
-                        'placeholder' => 'Select ...',
-                        // 'class' => 'form-control',
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-             ?>
-        </div>
-    </div>
-
+    <?= $form->field($model, 'id_kecepatan')->widget(Select2::classname(), [
+    'data' => $kecepatan,
+    'options' => ['placeholder' => 'Select ...'],
+    'pluginOptions' => [
+        'allowClear' => true
+    ],
+]); ?>
     <?= $form->field($model, 'no_surat')->textInput() ?>
 
     <!-- <?= $form->field($model, 'tgl_surat')->textInput() ?> -->
@@ -104,25 +79,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'keterangan')->textInput(['maxlength' => true]) ?>
 
-    <div class="form-group">
-        <label class="col-lg-3 control-label">Tujuan Disposisi</label>
-        <div class="col-lg-9">
-            <?php 
-                echo Select2::widget([
-                    'name' => 'tujuan_dispo_id',
-                    'data' => $users,
-                    'value' => $model->tujuan_dispo_id,
-                    'options' => [
-                        'placeholder' => 'Select ...',
-                        // 'class' => 'form-control',
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-             ?>
-        </div>
-    </div>
+    <?= $form->field($model, 'tujuan_dispo_id')->widget(Select2::classname(), [
+    'data' => $users,
+    'options' => ['placeholder' => 'Select ...'],
+    'pluginOptions' => [
+        'allowClear' => true
+    ],
+]); ?>
 
     <!-- <?= $form->field($model, 'file')->textInput(['maxlength' => true]) ?> -->
 
