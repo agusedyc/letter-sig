@@ -40,11 +40,12 @@ class SuratMasuk extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tujuan_dispo_id', 'no_surat', 'tgl_surat', 'tgl_terima', 'id_keamanan', 'id_kecepatan'], 'integer'],
-            [['no_surat', 'asal_surat', 'ringkas_surat', 'keterangan', 'tgl_surat', 'tgl_terima', 'file', 'path_file', 'id_keamanan', 'id_kecepatan'], 'required'],
-            [['asal_surat', 'keterangan'], 'string', 'max' => 100],
-            [['ringkas_surat', 'file'], 'string', 'max' => 300],
+            [['tujuan_dispo_id', 'id_keamanan', 'id_kecepatan'], 'integer'],
+            [['asal_surat', 'ringkas_surat', 'keterangan', 'tgl_surat', 'tgl_terima', 'id_keamanan', 'id_kecepatan'], 'required'],
+            [['asal_surat', 'keterangan', 'tgl_surat', 'tgl_terima'], 'string', 'max' => 100],
+            [['ringkas_surat', 'file','no_surat'], 'string', 'max' => 300],
             [['path_file'], 'string', 'max' => 255],
+            [['file'],'file'],
             [['id_keamanan'], 'exist', 'skipOnError' => true, 'targetClass' => Keamanan::className(), 'targetAttribute' => ['id_keamanan' => 'id']],
             [['id_kecepatan'], 'exist', 'skipOnError' => true, 'targetClass' => Kecepatan::className(), 'targetAttribute' => ['id_kecepatan' => 'id']],
             [['tujuan_dispo_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['tujuan_dispo_id' => 'id']],
