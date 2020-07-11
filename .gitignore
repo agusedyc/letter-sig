@@ -1,0 +1,10 @@
+composer.lock
+
+*.sublime-workspace
+*.sublime-project
+
+vendor/*
+
+web/index.php
+
+web/uploads/letter/*
