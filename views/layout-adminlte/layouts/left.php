@@ -30,10 +30,10 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
-                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    // ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
+                    // ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                    // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
+                    // ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     ['label' => 'Surat Masuk', 'icon' => 'file', 'url' => ['/surat-masuk/index']],
                     ['label' => 'Disposisi', 'icon' => 'file', 'url' => ['/disposisi/index']],
                     [
@@ -47,31 +47,16 @@
                         ],
                     ],
                     [
-                        'label' => 'Some tools',
-                        'icon' => 'share',
+                        'label' => 'User Management',
+                        'icon' => 'users',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Dependencyebug', 'icon' => 'dashboard', 'url' => ['/debug'],],
-                            [
-                                'label' => 'Level One',
-                                'icon' => 'circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-                                    [
-                                        'label' => 'Level Two',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],
+                            ['label' => 'User', 'icon' => 'user', 'url' => ['/user/index'],],
+                            ['label' => 'Role', 'icon' => 'file-code-o', 'url' => ['/mimin/role/index'],],
+                            ['label' => 'Route', 'icon' => 'file-code-o', 'url' => ['/mimin/route/index'],],
                         ],
                     ],
+                    
                 ],
             ]
         ) ?>
