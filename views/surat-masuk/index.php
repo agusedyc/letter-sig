@@ -33,7 +33,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'tgl_surat',
             'no_surat',
             'asal_surat',
-            'tujuanDispo.nama_lengkap',
+            // 'tujuanDispo.nama_lengkap',
+            [
+                'label' => 'Tujuan Disposisi',
+                'attribute' => 'tujuan_id',
+                'format' => 'raw',
+                'value' =>  function($model){
+                    return $model->tujuanDispo->nama_lengkap;
+                },
+            ],
+            [
+                'label' => 'Status Disposisi',
+                // 'attribute' => 'tujuan_id',
+                'format' => 'raw',
+                'value' =>  function($model){
+                    return $model->tujuanDispo->nama_lengkap;
+                },
+            ],
             // 'ringkas_surat',
             //'keterangan',
             //'tgl_terima',

@@ -12,13 +12,26 @@ $this->params['breadcrumbs'][] = ['label' => 'Disposisis', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
+
+
+<p>
+    <?= Html::a('Back', ['index'], ['class' => 'btn btn-warning']) ?>
+</p>
+
+<div class="surat-view">
+
+    <h1><?= Html::encode('Isi Surat') ?></h1>
+
+    <?= $this->render('_surat', [
+        // 'model' => $model,
+        'surat' => $surat,
+    ]) ?>
+
+</div>
+
 <div class="disposisi-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Back', ['index'], ['class' => 'btn btn-warning']) ?>
-    </p>
 
    <?= GridView::widget([
         'dataProvider' => $dataProvider,

@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Disposisi', ['create'], ['class' => 'btn btn-success']) ?>
+        <!-- <?= Html::a('Create Disposisi', ['create'], ['class' => 'btn btn-success']) ?> -->
     </p>
 
     <?php Pjax::begin(); ?>
@@ -43,14 +43,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'tgl_surat',
             'asal_surat',
             // 'tujuanDispo.nama_lengkap',
-            [
-                'label' => 'Tujuan Disposisi',
-                'attribute' => 'tujuan_id',
-                'format' => 'raw',
-                'value' =>  function($model){
-                    return $model->tujuanDispo->nama_lengkap;
-                },
-            ],
+            // [
+            //     'label' => 'Tujuan Disposisi',
+            //     'attribute' => 'tujuan_id',
+            //     'format' => 'raw',
+            //     'value' =>  function($model){
+            //         return $model->tujuanDispo->nama_lengkap;
+            //     },
+            // ],
             // 'ringkas_surat',
             //'keterangan',
             //'tgl_terima',
