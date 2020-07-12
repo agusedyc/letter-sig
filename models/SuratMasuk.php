@@ -102,4 +102,9 @@ class SuratMasuk extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'tujuan_dispo_id']);
     }
+
+    public function getDisposisi()
+    {
+        return $this->hasMany(Disposisi::className(), ['surat_masuk_id' => 'id']);
+    }
 }

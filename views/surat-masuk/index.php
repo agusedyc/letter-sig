@@ -47,7 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'attribute' => 'tujuan_id',
                 'format' => 'raw',
                 'value' =>  function($model){
-                    return $model->tujuanDispo->nama_lengkap;
+                    if (!empty($model->disposisi)) {
+                        return 'Tersidposisi';   
+                    }else{
+                        return 'Belum Disposisi';
+                    }
                 },
             ],
             // 'ringkas_surat',
