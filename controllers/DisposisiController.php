@@ -41,13 +41,15 @@ class DisposisiController extends Controller
      */
     public function actionIndex()
     {
-        $searchModelSuratMasuk = new SuratMasukSearch();
-        $dataProviderSuratMasuk = $searchModelSuratMasuk->search(Yii::$app->request->queryParams);
-        $dataProviderSuratMasuk->query->where(['tujuan_dispo_id' => Yii::$app->user->id]);
+        // $surat = SuratMasuk::findOne($id);
+        $searchModel = new DisposisiSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->where(['tujuan_id' => Yii::$app->user->id,]);
 
         return $this->render('index', [
-            'dataProviderSuratMasuk' => $dataProviderSuratMasuk,
-            'searchModelSuratMasuk' => $searchModelSuratMasuk,
+            // 'surat' => $surat,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
 
         ]);
     }
@@ -78,6 +80,9 @@ class DisposisiController extends Controller
      */
     public function actionCreate($id)
     {
+        // echo '<pre>';
+        // print_r(Yii::$app->user->identity->password);
+        // echo '</pre>';
         $model = new Disposisi();
         $surat = SuratMasuk::findOne($id);
         $users = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'nama_lengkap');
@@ -85,7 +90,7 @@ class DisposisiController extends Controller
         $kecepatan = ArrayHelper::map(Kecepatan::find()->asArray()->all(), 'id', 'kecepatan');
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->surat_masuk_id = $id;            
+            $model->surat_masuk_id = $id;
         }
 
         if ($model->save()) {
@@ -111,17 +116,22 @@ class DisposisiController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        // $surat = SuratMasuk::findOne($model->surat;
+        $model->ringkas_dispo = $model->letterDecrypt($model->ringkas_dispo,$model->suratMasuk->tujuanDispo->password,User::findOne($model->tujuan_id)->password);
+        $surat = SuratMasuk::findOne($id);
         $users = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'nama_lengkap');
         $keamanan = ArrayHelper::map(Keamanan::find()->asArray()->all(), 'id', 'keamanan');
         $kecepatan = ArrayHelper::map(Kecepatan::find()->asArray()->all(), 'id', 'kecepatan');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->ringkas_dispo = $model->letterEncrypt($model->ringkas_dispo,Yii::$app->user->identity->password,User::findOne($model->tujuan_id)->password);
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);    
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'surat' => $surat,
             'users' => $users,
             'keamanan' => $keamanan,
             'kecepatan' => $kecepatan,

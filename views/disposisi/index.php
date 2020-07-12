@@ -1,5 +1,6 @@
 <?php
 
+use app\models\User;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -19,48 +20,50 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- <?= Html::a('Create Disposisi', ['create'], ['class' => 'btn btn-success']) ?> -->
     </p>
 
-    <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?= GridView::widget([
-        'dataProvider' => $dataProviderSuratMasuk,
-        'filterModel' => $searchModelSuratMasuk,
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             // 'id',
-            'keamanan.keamanan',
-            'kecepatan.kecepatan',
-            // 'no_surat',
             [
                 'label' => 'Nomor Surat',
-                'attribute' => 'no_surat',
+                // 'attribute' => 'id_tujuan_dispo',
                 'format' => 'raw',
                 'value' =>  function($model){
-                    return Html::a($model->no_surat, ['disposisi/create', 'id' => $model->id], ['title' => 'Create Disposisi']);
+                    return $model->suratMasuk->no_surat;
                 },
             ],
-            'tgl_surat',
-            'asal_surat',
-            // 'tujuanDispo.nama_lengkap',
-            // [
-            //     'label' => 'Tujuan Disposisi',
-            //     'attribute' => 'tujuan_id',
-            //     'format' => 'raw',
-            //     'value' =>  function($model){
-            //         return $model->tujuanDispo->nama_lengkap;
-            //     },
-            // ],
-            // 'ringkas_surat',
-            //'keterangan',
-            //'tgl_terima',
-            //'file',
-            //'path_file',
-
-            ['class' => 'yii\grid\ActionColumn']
+            'tgl_terima',
+            'keamanan.keamanan',
+            'kecepatan.kecepatan',
+            // 'tujuan_id',
+            [
+                'label' => 'Tujuan Disposisi',
+                'attribute' => 'id_tujuan_dispo',
+                'format' => 'raw',
+                'value' =>  function($model){
+                    return $model->tujuan->nama_lengkap;
+                },
+            ],
+            // 'ringkas_dispo',
+            // $model->ringkas_dispo = $model->letterEncrypt($model->ringkas_dispo,Yii::$app->user->identity->password,User::findOne($model->tujuan_id)->password);
+            [
+                'label' => 'Disposisi',
+                'attribute' => 'ringkas_dispo',
+                'format' => 'raw',
+                'value' =>  function($model){
+                    return $model->letterDecrypt($model->ringkas_dispo,$model->suratMasuk->tujuanDispo->password,User::findOne($model->tujuan_id)->password);
+                },
+            ],
+            'keterangan',
+            
+            // 'surat_masuk_id',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
         ],
-    ]); ?>
-
-    <?php Pjax::end(); ?>
+    ]) ?>
 
 </div>
