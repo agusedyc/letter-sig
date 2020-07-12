@@ -19,36 +19,37 @@ use yii\widgets\ActiveForm;
             <div class="panel-body">
 
     <?php $form = ActiveForm::begin([
-                    // 'id' => 'profile-form',
-                    // 'method' => 'post',
-                    // 'action' => ['register-jurnal/index'],
-                    'options' => ['class' => 'form-horizontal','enctype' => 'multipart/form-data'],
-                    'fieldConfig' => [
-                        'template' => "{label}\n<div class=\"col-lg-9\">{input}</div>\n<div class=\"col-sm-offset-3 col-lg-9\">{error}\n{hint}</div>",
-                        'labelOptions' => ['class' => 'col-lg-3 control-label'],
-                    ],
-                    // 'enableAjaxValidation' => true,
-                    // 'enableClientValidation' => false,
-                    // 'validateOnBlur' => false,
-                ]); ?>
+        // 'id' => 'profile-form',
+        // 'method' => 'post',
+        // 'action' => ['register-jurnal/index'],
+        'options' => ['class' => 'form-horizontal','enctype' => 'multipart/form-data'],
+        'fieldConfig' => [
+            'template' => "{label}\n<div class=\"col-lg-9\">{input}</div>\n<div class=\"col-sm-offset-3 col-lg-9\">{error}\n{hint}</div>",
+            'labelOptions' => ['class' => 'col-lg-3 control-label'],
+        ],
+        // 'enableAjaxValidation' => true,
+        // 'enableClientValidation' => false,
+        // 'validateOnBlur' => false,
+    ]); ?>
 
     <!-- <?= $form->field($model, 'tujuan_dispo_id')->textInput() ?> -->
 
     <?= $form->field($model, 'id_keamanan')->widget(Select2::classname(), [
-    'data' => $keamanan,
-    'options' => ['placeholder' => 'Select ...'],
-    'pluginOptions' => [
-        'allowClear' => true
-    ],
-]); ?>
+        'data' => $keamanan,
+        'options' => ['placeholder' => 'Select ...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
     <?= $form->field($model, 'id_kecepatan')->widget(Select2::classname(), [
-    'data' => $kecepatan,
-    'options' => ['placeholder' => 'Select ...'],
-    'pluginOptions' => [
-        'allowClear' => true
-    ],
-]); ?>
+        'data' => $kecepatan,
+        'options' => ['placeholder' => 'Select ...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
+    
     <?= $form->field($model, 'no_surat')->textInput() ?>
 
     <!-- <?= $form->field($model, 'tgl_surat')->textInput() ?> -->
@@ -80,12 +81,12 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'keterangan')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'tujuan_dispo_id')->widget(Select2::classname(), [
-    'data' => $users,
-    'options' => ['placeholder' => 'Select ...'],
-    'pluginOptions' => [
-        'allowClear' => true
-    ],
-]); ?>
+        'data' => $users,
+        'options' => ['placeholder' => 'Select ...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
     <!-- <?= $form->field($model, 'file')->textInput(['maxlength' => true]) ?> -->
 

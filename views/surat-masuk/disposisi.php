@@ -14,10 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Surat Masuk', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -48,9 +44,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'value' =>  function($model){
                     if (!empty($model->disposisi)) {
-                        return 'Tersidposisi';   
+                        return 'Terdisposisi';
+                        // return Html::a('Terdisposisi', ['view', 'id' => $model->id]);
                     }else{
-                        return 'Belum Disposisi';
+                        // return 'Belum Disposisi';
+                        return Html::a('Buat Disposisi', ['disposisi/create', 'id' => $model->id]);
                     }
                 },
             ],

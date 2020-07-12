@@ -38,8 +38,9 @@ class Disposisi extends \yii\db\ActiveRecord
     {
         return [
             [['tgl_terima', 'tujuan_id', 'ringkas_dispo', 'keterangan', 'id_keamanan', 'id_kecepatan'], 'required'],
-            [['tgl_terima', 'tujuan_id', 'id_keamanan', 'id_kecepatan', 'surat_masuk_id'], 'integer'],
-            [['ringkas_dispo'], 'string', 'max' => 50],
+            [['tujuan_id', 'id_keamanan', 'id_kecepatan', 'surat_masuk_id'], 'integer'],
+            [['tgl_terima'], 'string', 'max' => 50],
+            [['ringkas_dispo'], 'string'],
             [['keterangan'], 'string', 'max' => 100],
             [['id_keamanan'], 'exist', 'skipOnError' => true, 'targetClass' => Keamanan::className(), 'targetAttribute' => ['id_keamanan' => 'id']],
             [['id_kecepatan'], 'exist', 'skipOnError' => true, 'targetClass' => Kecepatan::className(), 'targetAttribute' => ['id_kecepatan' => 'id']],
@@ -56,11 +57,11 @@ class Disposisi extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'tgl_terima' => 'Tgl Terima',
-            'tujuan_id' => 'Tujuan ID',
-            'ringkas_dispo' => 'Ringkas Dispo',
+            'tujuan_id' => 'Tujuan Disposisi',
+            'ringkas_dispo' => 'Ringkasan Dispo',
             'keterangan' => 'Keterangan',
-            'id_keamanan' => 'Id Keamanan',
-            'id_kecepatan' => 'Id Kecepatan',
+            'id_keamanan' => 'Keamanan',
+            'id_kecepatan' => 'Kecepatan',
             'surat_masuk_id' => 'Surat Masuk ID',
         ];
     }
@@ -104,4 +105,15 @@ class Disposisi extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'tujuan_id']);
     }
+
+    public function letterEncrypt($data,$keySent,$keyRecived)
+    {
+        return Yii::$app->getSecurity()->encryptByPassword($data, $keySent.$keyRecived);
+    }
+
+    public function letterDecrypt($data,$keySent,$keyRecived)
+    {
+        return Yii::$app->getSecurity()->decryptByPassword($data, $keySent.$keyRecived);
+    }
+
 }

@@ -35,6 +35,18 @@ class SuratMasukController extends Controller
         ];
     }
 
+    public function actionDisposisi()
+    {
+        $searchModel = new SuratMasukSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->where(['tujuan_dispo_id' => Yii::$app->user->id]);
+
+        return $this->render('disposisi', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Lists all SuratMasuk models.
      * @return mixed
