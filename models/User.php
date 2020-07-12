@@ -27,12 +27,12 @@ use yii\web\IdentityInterface;
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
+    const STATUS_ACTIVE = 1;
 
     public $new_password;
     public $repeat_password;
     public $old_password;
-    // public $new_password;
+    public $password_hash;
 
     /**
      * {@inheritdoc}
@@ -69,7 +69,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['username'], 'required'],
             [['username', 'verification_token'], 'string', 'max' => 255],
             // [['email'], 'email'],
-            // [['email', 'password_hash'], 'string', 'max' => 255],
+            [['password_hash'], 'string', 'min' => 8],
             ['status','integer'],
             // ['instansi_id','integer'],
             [['old_password', 'new_password', 'repeat_password'], 'string', 'min' => 6],
@@ -203,7 +203,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password);
+        // return Yii::$app->security->validatePassword($password, $this->password);
+        // $this->password = hash('sha512',$password);
+        return (hash('sha512',$password)==$this->password) ? true : false;
     }
     /**
      * Generates password hash from password and sets it to the model
@@ -212,7 +214,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password = Yii::$app->security->generatePasswordHash($password);
+        // $this->password = Yii::$app->security->generatePasswordHash($password);
+        $this->password = hash('sha512',$password);
+
     }
     /**
      * Generates "remember me" authentication key
