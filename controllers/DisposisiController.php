@@ -5,9 +5,10 @@ namespace app\controllers;
 use Yii;
 use app\models\Disposisi;
 use app\models\DisposisiSearch;
+use app\models\SuratMasukSearch;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * DisposisiController implements the CRUD actions for Disposisi model.
@@ -37,10 +38,15 @@ class DisposisiController extends Controller
     {
         $searchModel = new DisposisiSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $searchModelSuratMasuk = new SuratMasukSearch();
+        $dataProviderSuratMasuk = $searchModelSuratMasuk->search(Yii::$app->request->queryParams);
+        $dataProviderSuratMasuk->query->where(['tujuan_dispo_id' => Yii::$app->user->id]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'dataProviderSuratMasuk' => $dataProviderSuratMasuk,
+            'searchModelSuratMasuk' => $searchModelSuratMasuk,
+
         ]);
     }
 

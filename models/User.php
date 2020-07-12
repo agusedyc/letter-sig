@@ -91,7 +91,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'id' => Yii::t('app', 'ID'),
             'username' => Yii::t('app', 'Username'),
             'auth_key' => Yii::t('app', 'Auth Key'),
-            'password' => Yii::t('app', 'Password'),
+            'password_hash' => Yii::t('app', 'Password'),
             'nip' => Yii::t('app', 'NIP'),
             // 'password_reset_token' => Yii::t('app', 'Password Reset Token'),
             'nama_lengkap' => Yii::t('app', 'Nama Lengkap'),
@@ -105,7 +105,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['password'] = ['old_password', 'new_password', 'repeat_password'];
+        $scenarios['password_hash'] = ['old_password', 'new_password', 'repeat_password'];
         return $scenarios;
     }
 

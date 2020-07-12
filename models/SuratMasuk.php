@@ -44,8 +44,8 @@ class SuratMasuk extends \yii\db\ActiveRecord
             [['asal_surat', 'ringkas_surat', 'keterangan', 'tgl_surat', 'tgl_terima', 'id_keamanan', 'id_kecepatan'], 'required'],
             [['asal_surat', 'keterangan', 'tgl_surat', 'tgl_terima'], 'string', 'max' => 100],
             [['ringkas_surat', 'file','no_surat'], 'string', 'max' => 300],
-            [['path_file'], 'string', 'max' => 255],
-            [['file'],'file'],
+            // [['path_file'], 'string', 'max' => 255],
+            [['file'], 'file','skipOnEmpty' => true, 'extensions' => 'pdf'],
             [['id_keamanan'], 'exist', 'skipOnError' => true, 'targetClass' => Keamanan::className(), 'targetAttribute' => ['id_keamanan' => 'id']],
             [['id_kecepatan'], 'exist', 'skipOnError' => true, 'targetClass' => Kecepatan::className(), 'targetAttribute' => ['id_kecepatan' => 'id']],
             [['tujuan_dispo_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['tujuan_dispo_id' => 'id']],
@@ -62,14 +62,14 @@ class SuratMasuk extends \yii\db\ActiveRecord
             'tujuan_dispo_id' => 'Tujuan Dispo ID',
             'no_surat' => 'No Surat',
             'asal_surat' => 'Asal Surat',
-            'ringkas_surat' => 'Ringkas Surat',
+            'ringkas_surat' => 'Ringkasan Surat',
             'keterangan' => 'Keterangan',
             'tgl_surat' => 'Tgl Surat',
             'tgl_terima' => 'Tgl Terima',
             'file' => 'File',
             'path_file' => 'Path File',
-            'id_keamanan' => 'Id Keamanan',
-            'id_kecepatan' => 'Id Kecepatan',
+            'id_keamanan' => 'Keamanan',
+            'id_kecepatan' => 'Kecepatan',
         ];
     }
 

@@ -14,9 +14,11 @@ use Yii;
  * @property string $keterangan
  * @property int $id_keamanan
  * @property int $id_kecepatan
+ * @property int|null $surat_masuk_id
  *
  * @property Keamanan $keamanan
  * @property Kecepatan $kecepatan
+ * @property SuratMasuk $suratMasuk
  * @property User $tujuan
  */
 class Disposisi extends \yii\db\ActiveRecord
@@ -36,11 +38,12 @@ class Disposisi extends \yii\db\ActiveRecord
     {
         return [
             [['tgl_terima', 'tujuan_id', 'ringkas_dispo', 'keterangan', 'id_keamanan', 'id_kecepatan'], 'required'],
-            [['tgl_terima', 'tujuan_id', 'id_keamanan', 'id_kecepatan'], 'integer'],
+            [['tgl_terima', 'tujuan_id', 'id_keamanan', 'id_kecepatan', 'surat_masuk_id'], 'integer'],
             [['ringkas_dispo'], 'string', 'max' => 50],
             [['keterangan'], 'string', 'max' => 100],
             [['id_keamanan'], 'exist', 'skipOnError' => true, 'targetClass' => Keamanan::className(), 'targetAttribute' => ['id_keamanan' => 'id']],
             [['id_kecepatan'], 'exist', 'skipOnError' => true, 'targetClass' => Kecepatan::className(), 'targetAttribute' => ['id_kecepatan' => 'id']],
+            [['surat_masuk_id'], 'exist', 'skipOnError' => true, 'targetClass' => SuratMasuk::className(), 'targetAttribute' => ['surat_masuk_id' => 'id']],
             [['tujuan_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['tujuan_id' => 'id']],
         ];
     }
@@ -58,6 +61,7 @@ class Disposisi extends \yii\db\ActiveRecord
             'keterangan' => 'Keterangan',
             'id_keamanan' => 'Id Keamanan',
             'id_kecepatan' => 'Id Kecepatan',
+            'surat_masuk_id' => 'Surat Masuk ID',
         ];
     }
 
@@ -79,6 +83,16 @@ class Disposisi extends \yii\db\ActiveRecord
     public function getKecepatan()
     {
         return $this->hasOne(Kecepatan::className(), ['id' => 'id_kecepatan']);
+    }
+
+    /**
+     * Gets query for [[SuratMasuk]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSuratMasuk()
+    {
+        return $this->hasOne(SuratMasuk::className(), ['id' => 'surat_masuk_id']);
     }
 
     /**

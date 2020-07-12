@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\SuratMasuk */
 
-$this->title = $model->id;
+$this->title = $model->no_surat;
 $this->params['breadcrumbs'][] = ['label' => 'Surat Masuks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -30,18 +30,28 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'tujuan_dispo_id',
+            // 'id',
+            // 'tujuanDispo.nama_lengkap',
+            [
+                'label' => 'Tujuan Disposisi',
+                'attribute' => 'id_tujuan_dispo',
+                'format' => 'raw',
+                'value' =>  function($model){
+                    return $model->tujuanDispo->nama_lengkap;
+                },
+            ],
             'no_surat',
             'asal_surat',
             'ringkas_surat',
             'keterangan',
             'tgl_surat',
             'tgl_terima',
-            'file',
-            'path_file',
-            'id_keamanan',
-            'id_kecepatan',
+            // 'file',
+            // 'path_file',
+            // 'id_keamanan',
+            'keamanan.keamanan',
+            // 'id_kecepatan',
+            'kecepatan.kecepatan',
         ],
     ]) ?>
 

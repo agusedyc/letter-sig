@@ -110,13 +110,36 @@ class SuratMasukController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $current_file = $model->file;
+        $users = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'nama_lengkap');
+        $keamanan = ArrayHelper::map(Keamanan::find()->asArray()->all(), 'id', 'keamanan');
+        $kecepatan = ArrayHelper::map(Kecepatan::find()->asArray()->all(), 'id', 'kecepatan');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $image = UploadedFile::getInstance($model, 'file');
+            if (!empty($image) && $image->size !== 0) {
+                $path = 'uploads/surat/';
+                FileHelper::createDirectory($path);
+                $image->saveAs($path.'/'.$image->name);
+                $model->file = $path.'/'.$image->name;
+            }else{
+                $model->file = $current_file;  
+            }
+            
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);   
+            }else{
+                echo '<pre>';
+                print_r($model->errors);
+                echo '</pre>';
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'users' => $users,
+            'keamanan' => $keamanan,
+            'kecepatan' => $kecepatan,
         ]);
     }
 
