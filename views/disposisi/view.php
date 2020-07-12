@@ -1,12 +1,13 @@
 <?php
 
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Disposisi */
 
-$this->title = $model->id;
+$this->title = 'Disposisi Surat No : '.$surat->no_surat;
 $this->params['breadcrumbs'][] = ['label' => 'Disposisis', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -17,27 +18,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Back', ['index'], ['class' => 'btn btn-warning']) ?>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
+   <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            // 'id',
             'tgl_terima',
-            'tujuan_id',
+            'keamanan.keamanan',
+            'kecepatan.kecepatan',
+            // 'tujuan_id',
+            [
+                'label' => 'Tujuan Disposisi',
+                'attribute' => 'id_tujuan_dispo',
+                'format' => 'raw',
+                'value' =>  function($model){
+                    return $model->tujuan->nama_lengkap;
+                },
+            ],
             'ringkas_dispo',
             'keterangan',
-            'id_keamanan',
-            'id_kecepatan',
-            'surat_masuk_id',
+            
+            // 'surat_masuk_id',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
         ],
     ]) ?>
 

@@ -1,7 +1,8 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DisposisiSearch */
@@ -30,17 +31,33 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id',
             'keamanan.keamanan',
             'kecepatan.kecepatan',
+            // 'no_surat',
+            [
+                'label' => 'Nomor Surat',
+                'attribute' => 'no_surat',
+                'format' => 'raw',
+                'value' =>  function($model){
+                    return Html::a($model->no_surat, ['disposisi/create', 'id' => $model->id], ['title' => 'Create Disposisi']);
+                },
+            ],
             'tgl_surat',
-            'no_surat',
             'asal_surat',
-            'tujuanDispo.nama_lengkap',
+            // 'tujuanDispo.nama_lengkap',
+            [
+                'label' => 'Tujuan Disposisi',
+                'attribute' => 'tujuan_id',
+                'format' => 'raw',
+                'value' =>  function($model){
+                    return $model->tujuanDispo->nama_lengkap;
+                },
+            ],
             // 'ringkas_surat',
             //'keterangan',
             //'tgl_terima',
             //'file',
             //'path_file',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn']
         ],
     ]); ?>
 

@@ -5,8 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\Disposisi;
 use app\models\DisposisiSearch;
+use app\models\Keamanan;
+use app\models\Kecepatan;
+use app\models\SuratMasuk;
 use app\models\SuratMasukSearch;
+use app\models\User;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -36,14 +41,11 @@ class DisposisiController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DisposisiSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $searchModelSuratMasuk = new SuratMasukSearch();
         $dataProviderSuratMasuk = $searchModelSuratMasuk->search(Yii::$app->request->queryParams);
         $dataProviderSuratMasuk->query->where(['tujuan_dispo_id' => Yii::$app->user->id]);
+
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
             'dataProviderSuratMasuk' => $dataProviderSuratMasuk,
             'searchModelSuratMasuk' => $searchModelSuratMasuk,
 
@@ -58,8 +60,14 @@ class DisposisiController extends Controller
      */
     public function actionView($id)
     {
+        $surat = SuratMasuk::findOne($id);
+        $searchModel = new DisposisiSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->where(['surat_masuk_id' => $id]);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'surat' => $surat,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -68,16 +76,28 @@ class DisposisiController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new Disposisi();
+        $surat = SuratMasuk::findOne($id);
+        $users = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'nama_lengkap');
+        $keamanan = ArrayHelper::map(Keamanan::find()->asArray()->all(), 'id', 'keamanan');
+        $kecepatan = ArrayHelper::map(Kecepatan::find()->asArray()->all(), 'id', 'kecepatan');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->surat_masuk_id = $id;            
+        }
+
+        if ($model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);   
         }
 
         return $this->render('create', [
             'model' => $model,
+            'surat' => $surat,
+            'users' => $users,
+            'keamanan' => $keamanan,
+            'kecepatan' => $kecepatan,
         ]);
     }
 
@@ -91,6 +111,10 @@ class DisposisiController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        // $surat = SuratMasuk::findOne($model->surat;
+        $users = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'nama_lengkap');
+        $keamanan = ArrayHelper::map(Keamanan::find()->asArray()->all(), 'id', 'keamanan');
+        $kecepatan = ArrayHelper::map(Kecepatan::find()->asArray()->all(), 'id', 'kecepatan');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -98,6 +122,9 @@ class DisposisiController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'users' => $users,
+            'keamanan' => $keamanan,
+            'kecepatan' => $kecepatan,
         ]);
     }
 
