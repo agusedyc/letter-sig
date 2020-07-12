@@ -111,11 +111,11 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            $model->setPassword($model->password);
-            $model->status = $model->status==1?10:0;
+            $model->setPassword($model->password_hash);
+            $model->status = $model->status==1?1:0;
             
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'User berhasil dibuat dengan password [$model->password]');
+                Yii::$app->session->setFlash('success', 'User berhasil dibuat dengan password [$model->password_hash]');
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 Yii::$app->session->setFlash('error',$model->getErrors());
@@ -126,8 +126,6 @@ class UserController extends Controller
                 'model' => $model,
             ]);
         }
-
-        
     }
 
     /**
@@ -141,8 +139,12 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->setPassword($model->new_password);  
+            $model->status = $model->status==1?1:0;
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);   
+            }
         }
 
         return $this->render('update', [
