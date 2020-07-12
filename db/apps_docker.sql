@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb
--- Generation Time: Jul 12, 2020 at 12:25 AM
+-- Generation Time: Jul 12, 2020 at 10:40 AM
 -- Server version: 10.3.18-MariaDB-1:10.3.18+maria~bionic
 -- PHP Version: 7.2.22
 
@@ -39,7 +39,8 @@ CREATE TABLE `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('Administrator', '2', 1594451741);
+('Administrator', '2', 1594451741),
+('Pejabat', '3', 1594542478);
 
 -- --------------------------------------------------------
 
@@ -63,8 +64,10 @@ CREATE TABLE `auth_item` (
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('/*', 2, NULL, NULL, NULL, 1594446673, 1594446673),
+('/disposisi/*', 2, NULL, NULL, NULL, 1594542374, 1594542374),
+('/surat-masuk/disposisi', 2, NULL, NULL, NULL, 1594542407, 1594542407),
 ('Administrator', 1, NULL, NULL, NULL, 1594446670, 1594446677),
-('Pejabat', 1, NULL, NULL, NULL, 1594446696, 1594446708);
+('Pejabat', 1, NULL, NULL, NULL, 1594446696, 1594542414);
 
 -- --------------------------------------------------------
 
@@ -83,7 +86,8 @@ CREATE TABLE `auth_item_child` (
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Administrator', '/*'),
-('Pejabat', '/*');
+('Pejabat', '/disposisi/*'),
+('Pejabat', '/surat-masuk/disposisi');
 
 -- --------------------------------------------------------
 
@@ -106,14 +110,21 @@ CREATE TABLE `auth_rule` (
 
 CREATE TABLE `disposisi` (
   `id` int(10) NOT NULL,
-  `tgl_terima` int(11) NOT NULL,
+  `tgl_terima` varchar(50) NOT NULL DEFAULT '',
   `tujuan_id` int(10) NOT NULL,
-  `ringkas_dispo` varchar(50) NOT NULL,
-  `keterangan` varchar(100) NOT NULL,
+  `ringkas_dispo` blob NOT NULL DEFAULT '',
+  `keterangan` varchar(255) NOT NULL,
   `id_keamanan` int(5) NOT NULL,
   `id_kecepatan` int(5) NOT NULL,
   `surat_masuk_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `disposisi`
+--
+
+INSERT INTO `disposisi` (`id`, `tgl_terima`, `tujuan_id`, `ringkas_dispo`, `keterangan`, `id_keamanan`, `id_kecepatan`, `surat_masuk_id`) VALUES
+(1, '12-07-2020', 3, 0xd2598eaba15e0c4eccb290e3bfac17cc38323034393135656237363765303733333161383439663931613563383133316139343437623732643034383065633431633930626134613230356134616637d60e3ea31cfb0fc5912cb69dd916c49eb17481cfedb4e55ff2f5edc99522d8521898e54805b5154677f433528d3474cd, 'Keterangan 2', 1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -297,6 +308,7 @@ INSERT INTO `route` (`name`, `alias`, `type`, `status`) VALUES
 ('/surat-masuk/*', '*', 'surat-masuk', 1),
 ('/surat-masuk/create', 'create', 'surat-masuk', 1),
 ('/surat-masuk/delete', 'delete', 'surat-masuk', 1),
+('/surat-masuk/disposisi', 'disposisi', 'surat-masuk', 1),
 ('/surat-masuk/index', 'index', 'surat-masuk', 1),
 ('/surat-masuk/update', 'update', 'surat-masuk', 1),
 ('/surat-masuk/view', 'view', 'surat-masuk', 1),
@@ -347,7 +359,7 @@ CREATE TABLE `user` (
   `nama_lengkap` varchar(100) DEFAULT NULL,
   `nip` varchar(20) DEFAULT NULL,
   `username` varchar(50) NOT NULL,
-  `password_hash` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `level_user` int(1) DEFAULT NULL,
   `status` int(2) NOT NULL,
   `last_login_at` int(11) DEFAULT NULL,
@@ -363,8 +375,9 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `jabatan_id`, `nama_lengkap`, `nip`, `username`, `password_hash`, `level_user`, `status`, `last_login_at`, `auth_key`, `email`, `verification_token`, `password_reset_token`, `created_at`, `updated_at`) VALUES
-(2, NULL, 'Nama Lengkap', '123456789123456789', 'admin', '$2y$13$cQKBLC3TnMcAcNvc5VjA2egjaIBvh/VY4uscMS/HCWrm7mKveW4Ky', NULL, 10, NULL, NULL, NULL, NULL, NULL, 1594451736, 1594452624);
+INSERT INTO `user` (`id`, `jabatan_id`, `nama_lengkap`, `nip`, `username`, `password`, `level_user`, `status`, `last_login_at`, `auth_key`, `email`, `verification_token`, `password_reset_token`, `created_at`, `updated_at`) VALUES
+(2, NULL, 'Nama Lengkap', '123456789123456789', 'admin', '937f135ebf3ec6ecd1ef2045927b4f886f3b67649a898af1c00d3b070b5461933712d5a936823826890755bec115874eacfab111f73a52d569a48facf364bcc3', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1594451736, 1594530182),
+(3, NULL, 'Test', '123456789123456789', 'test', '937f135ebf3ec6ecd1ef2045927b4f886f3b67649a898af1c00d3b070b5461933712d5a936823826890755bec115874eacfab111f73a52d569a48facf364bcc3', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1594526345, 1594530111);
 
 --
 -- Indexes for dumped tables
@@ -467,7 +480,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `disposisi`
 --
 ALTER TABLE `disposisi`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `jabatan`
@@ -503,7 +516,7 @@ ALTER TABLE `surat_masuk`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
