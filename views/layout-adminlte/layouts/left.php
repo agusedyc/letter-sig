@@ -34,7 +34,7 @@
                     // ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     // ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    ['label' => 'Surat', 'icon' => 'file', 'url' => ['/surat-masuk/index']],
+                    ['label' => 'Agenda Surat Masuk', 'icon' => 'file', 'url' => ['/surat-masuk/index']],
                     ['label' => 'Surat Masuk', 'icon' => 'file', 'url' => ['/surat-masuk/disposisi']],
                     ['label' => 'Disposisi', 'icon' => 'file', 'url' => ['/disposisi/index']],
                     [
