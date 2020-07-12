@@ -17,7 +17,7 @@ class DisposisiSearch extends Disposisi
     public function rules()
     {
         return [
-            [['id', 'tgl_terima', 'tujuan_id', 'id_keamanan', 'id_kecepatan'], 'integer'],
+            [['id', 'tgl_terima', 'tujuan_id', 'id_keamanan', 'id_kecepatan', 'surat_masuk_id'], 'integer'],
             [['ringkas_dispo', 'keterangan'], 'safe'],
         ];
     }
@@ -63,6 +63,7 @@ class DisposisiSearch extends Disposisi
             'tujuan_id' => $this->tujuan_id,
             'id_keamanan' => $this->id_keamanan,
             'id_kecepatan' => $this->id_kecepatan,
+            'surat_masuk_id' => $this->surat_masuk_id,
         ]);
 
         $query->andFilterWhere(['like', 'ringkas_dispo', $this->ringkas_dispo])

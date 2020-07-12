@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'old_password') ?>
             <?php } else { ?>
 
-                <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
 
             <?php } ?>
 

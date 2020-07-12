@@ -24,6 +24,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_kecepatan')->textInput() ?>
 
+    <?= $form->field($model, 'surat_masuk_id')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         <?= Html::a('Back', ['index'], ['class' => 'btn btn-warning']) ?>
