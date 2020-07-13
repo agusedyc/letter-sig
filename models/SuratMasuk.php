@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "surat_masuk".
@@ -34,13 +37,36 @@ class SuratMasuk extends \yii\db\ActiveRecord
         return 'surat_masuk';
     }
 
+    public function behaviors()
+    {
+       return [
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+            // 'sluggable' => [
+            //     'class' => SluggableBehavior::className(),
+            //     'attribute' => 'name',
+            //     'slugAttribute' => 'slug',
+            // ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['tujuan_dispo_id', 'id_keamanan', 'id_kecepatan'], 'integer'],
+            [['tujuan_dispo_id', 'id_keamanan', 'id_kecepatan','created_at','updated_at','created_by','updated_by'], 'integer'],
             [['asal_surat', 'ringkas_surat', 'keterangan', 'tgl_surat', 'tgl_terima', 'id_keamanan', 'id_kecepatan'], 'required'],
             [['asal_surat', 'keterangan', 'tgl_surat', 'tgl_terima'], 'string', 'max' => 100],
             [['ringkas_surat', 'file','no_surat'], 'string', 'max' => 300],
@@ -70,6 +96,10 @@ class SuratMasuk extends \yii\db\ActiveRecord
             'path_file' => 'Path File',
             'id_keamanan' => 'Keamanan',
             'id_kecepatan' => 'Kecepatan',
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_by' => Yii::t('app', 'Updated By'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 
@@ -102,6 +132,12 @@ class SuratMasuk extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'tujuan_dispo_id']);
     }
+
+    public function getDibuat()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
 
     public function getDisposisi()
     {
