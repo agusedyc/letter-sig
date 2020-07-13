@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'APNDE PoltekSSN',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -15,7 +16,7 @@ $config = [
          'class' => '\hscstudio\mimin\components\AccessControl',
          'allowActions' => [
             // add wildcard allowed action here!
-            '*',
+            // '*',
             // 'user/*',
             // 'user/profile/*',
             // 'user/security/*',
@@ -26,9 +27,9 @@ $config = [
             // 'site/*',
             'site/login',
             // dev Mode
-            'gii/*',
-            'debug/*',
-            'mimin/*', // only in dev mode
+            // 'gii/*',
+            // 'debug/*',
+            // 'mimin/*', // only in dev mode
         ],
     ],
     'modules' => [

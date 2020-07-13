@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         // return Html::a('Terdisposisi', ['view', 'id' => $model->id]);
                     }else{
                         // return 'Belum Disposisi';
-                        return Html::a('Buat Disposisi', ['disposisi/create', 'id' => $model->id]);
+                        return Html::a('Buat Disposisi', ['disposisi/surat-create', 'id' => $model->id]);
                     }
                 },
             ],
