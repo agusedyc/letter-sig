@@ -44,7 +44,8 @@ class DisposisiController extends Controller
         // $surat = SuratMasuk::findOne($id);
         $searchModel = new DisposisiSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['tujuan_id' => Yii::$app->user->id,]);
+        $dataProvider->query->where(['tujuan_id' => Yii::$app->user->id]);
+        $dataProvider->query->orWhere(['created_by' => Yii::$app->user->id]);
 
         return $this->render('index', [
             // 'surat' => $surat,
@@ -61,15 +62,11 @@ class DisposisiController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
-    {
-        $surat = SuratMasuk::findOne($id);
-        $searchModel = new DisposisiSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['surat_masuk_id' => $id]);
+    {   $model = $this->findModel($id);
+        $surat = SuratMasuk::findOne($model->suratMasuk->id);
         return $this->render('view', [
+            'model' => $model,
             'surat' => $surat,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -80,9 +77,40 @@ class DisposisiController extends Controller
      */
     public function actionCreate($id)
     {
-        // echo '<pre>';
-        // print_r(Yii::$app->user->identity->password);
-        // echo '</pre>';
+        $findDisposisi = $this->findModel($id);
+        $model = new Disposisi();
+        $surat = SuratMasuk::findOne($findDisposisi->surat_masuk_id);
+        $users = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'nama_lengkap');
+        $keamanan = ArrayHelper::map(Keamanan::find()->asArray()->all(), 'id', 'keamanan');
+        $kecepatan = ArrayHelper::map(Kecepatan::find()->asArray()->all(), 'id', 'kecepatan');
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->surat_masuk_id = $model->surat_masuk_id;
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);   
+            }
+        }
+
+        
+
+        return $this->render('create', [
+            'findDisposisi' => $findDisposisi,
+            'model' => $model,
+            'surat' => $surat,
+            'users' => $users,
+            'keamanan' => $keamanan,
+            'kecepatan' => $kecepatan,
+        ]);
+    }
+
+    /**
+     * Creates a new Disposisi model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionSuratCreate($id)
+    {
+        // $findDisposisi = $this->findModel($id);
         $model = new Disposisi();
         $surat = SuratMasuk::findOne($id);
         $users = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'nama_lengkap');
@@ -90,14 +118,18 @@ class DisposisiController extends Controller
         $kecepatan = ArrayHelper::map(Kecepatan::find()->asArray()->all(), 'id', 'kecepatan');
 
         if ($model->load(Yii::$app->request->post())) {
+            // Encript Disposisi By Create
+            // $model->ringkas_dispo = $model->letterEncrypt($model->ringkas_dispo,$model->dibuat->password,User::findOne($model->tujuan_id)->password);
             $model->surat_masuk_id = $id;
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);   
+            }
         }
 
-        if ($model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);   
-        }
+        
 
-        return $this->render('create', [
+        return $this->render('surat-create', [
+            // 'findDisposisi' => $findDisposisi,
             'model' => $model,
             'surat' => $surat,
             'users' => $users,

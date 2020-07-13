@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "disposisi".
@@ -31,6 +34,29 @@ class Disposisi extends \yii\db\ActiveRecord
         return 'disposisi';
     }
 
+    public function behaviors()
+    {
+       return [
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+            // 'sluggable' => [
+            //     'class' => SluggableBehavior::className(),
+            //     'attribute' => 'name',
+            //     'slugAttribute' => 'slug',
+            // ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -38,7 +64,7 @@ class Disposisi extends \yii\db\ActiveRecord
     {
         return [
             [['tgl_terima', 'tujuan_id', 'ringkas_dispo', 'keterangan', 'id_keamanan', 'id_kecepatan'], 'required'],
-            [['tujuan_id', 'id_keamanan', 'id_kecepatan', 'surat_masuk_id'], 'integer'],
+            [['tujuan_id', 'id_keamanan', 'id_kecepatan', 'surat_masuk_id','created_at','updated_at','created_by','updated_by'], 'integer'],
             [['tgl_terima'], 'string', 'max' => 50],
             [['ringkas_dispo'], 'string'],
             [['keterangan'], 'string', 'max' => 100],
@@ -62,7 +88,11 @@ class Disposisi extends \yii\db\ActiveRecord
             'keterangan' => 'Keterangan',
             'id_keamanan' => 'Keamanan',
             'id_kecepatan' => 'Kecepatan',
-            'surat_masuk_id' => 'Surat Masuk ID',
+            'surat_masuk_id' => 'Surat Masuk',
+            'created_by' => Yii::t('app', 'Dibuat Oleh'),
+            'updated_by' => Yii::t('app', 'Di Update Oleh'),
+            'created_at' => Yii::t('app', 'Dibuat'),
+            'updated_at' => Yii::t('app', 'Di Update'),
         ];
     }
 
@@ -104,6 +134,11 @@ class Disposisi extends \yii\db\ActiveRecord
     public function getTujuan()
     {
         return $this->hasOne(User::className(), ['id' => 'tujuan_id']);
+    }
+
+    public function getDibuat()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     public function letterEncrypt($data,$keySent,$keyRecived)

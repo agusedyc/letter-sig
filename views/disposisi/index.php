@@ -1,6 +1,7 @@
 <?php
 
 use app\models\User;
+use hscstudio\mimin\components\Mimin;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -28,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id',
             [
                 'label' => 'Nomor Surat',
-                // 'attribute' => 'id_tujuan_dispo',
+                'attribute' => 'no_surat',
                 'format' => 'raw',
                 'value' =>  function($model){
                     return $model->suratMasuk->no_surat;
@@ -46,23 +47,43 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->tujuan->nama_lengkap;
                 },
             ],
-            // 'ringkas_dispo',
-            // $model->ringkas_dispo = $model->letterEncrypt($model->ringkas_dispo,Yii::$app->user->identity->password,User::findOne($model->tujuan_id)->password);
             [
                 'label' => 'Disposisi',
                 'attribute' => 'ringkas_dispo',
                 'format' => 'raw',
                 'value' =>  function($model){
-                    return $model->letterDecrypt($model->ringkas_dispo,$model->suratMasuk->tujuanDispo->password,User::findOne($model->tujuan_id)->password);
+                    return $model->letterDecrypt($model->ringkas_dispo,$model->dibuat->password,$model->tujuan->password);
                 },
             ],
             'keterangan',
+            [
+                'label' => 'Status Disposisi',
+                // 'attribute' => 'tujuan_id',
+                'format' => 'raw',
+                'value' =>  function($model){
+                    if (!empty($model->disposisi)) {
+                        // return 'Terdisposisi';
+                        return Html::a('Terisposisi', ['view', 'id' => $model->id]);
+                    }else{
+                        // return 'Belum Disposisi';
+                        return Html::a('Buat Disposisi', ['create', 'id' => $model->id]);
+                    }
+                },
+            ],
             
             // 'surat_masuk_id',
+            'created_at:datetime',
+            // 'created:datetime',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => '{view} {update} {delete}',
             ],
+
+
+            // [
+            //   'class' => 'yii\grid\ActionColumn',
+            //   'template' => Mimin::filterActionColumn((Yii::$app->user->id==$model->created_by) ? ['view','update','delete'] : ['view'],$this->context->route),
+            // ]
         ],
     ]) ?>
 

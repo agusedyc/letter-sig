@@ -1,48 +1,19 @@
 <?php
 
-use app\models\User;
-use yii\grid\GridView;
+use kartik\widgets\DatePicker;
+use kartik\widgets\Select2;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Disposisi */
-
-$this->title = 'Disposisi Surat No : ';
-$this->params['breadcrumbs'][] = ['label' => 'Disposisis', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+/* @var $form yii\widgets\ActiveForm */
 ?>
 
-
-<p>
-        <?= Html::a('Back', ['index'], ['class' => 'btn btn-warning']) ?>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-<div class="surat-view">
-
-    <h1><?= Html::encode('Isi Surat') ?></h1>
-
-    <?= $this->render('_surat', [
-        'surat' => $surat,
-    ]) ?>
-
-</div>
-
-<div class="disposisi-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<div class="surat">
     <?= DetailView::widget([
-        'model' => $model,
+        'model' => $findDisposisi,
         'attributes' => [
             // 'id',
             'tgl_terima',
@@ -69,5 +40,4 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'surat_masuk_id',
         ],
     ]) ?>
-
 </div>

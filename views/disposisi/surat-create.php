@@ -20,17 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 
-<div class="disposisi-view">
-
-    <h1><?= Html::encode('Disposisi Sebelumnya') ?></h1>
-
-    <?= $this->render('_dispo', [
-        // 'model' => $model,
-        'findDisposisi' => $findDisposisi,
-    ]) ?>
-
-</div>
-
 <div class="disposisi-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
