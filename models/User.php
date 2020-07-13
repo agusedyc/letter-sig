@@ -32,7 +32,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public $new_password;
     public $repeat_password;
     public $old_password;
-    public $password_hash;
+    // public $password;
 
     /**
      * {@inheritdoc}
@@ -69,7 +69,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['username'], 'required'],
             [['username', 'verification_token'], 'string', 'max' => 255],
             // [['email'], 'email'],
-            [['password_hash'], 'string', 'min' => 8],
+            [['password'], 'string', 'min' => 8],
             ['status','integer'],
             // ['instansi_id','integer'],
             [['old_password', 'new_password', 'repeat_password'], 'string', 'min' => 6],
@@ -91,7 +91,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'id' => Yii::t('app', 'ID'),
             'username' => Yii::t('app', 'Username'),
             'auth_key' => Yii::t('app', 'Auth Key'),
-            'password_hash' => Yii::t('app', 'Password'),
+            'password' => Yii::t('app', 'Password'),
             'nip' => Yii::t('app', 'NIP'),
             // 'password_reset_token' => Yii::t('app', 'Password Reset Token'),
             'nama_lengkap' => Yii::t('app', 'Nama Lengkap'),
@@ -105,7 +105,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['password_hash'] = ['old_password', 'new_password', 'repeat_password'];
+        $scenarios['password'] = ['old_password', 'new_password', 'repeat_password'];
         return $scenarios;
     }
 
@@ -201,21 +201,20 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      * @param string $password password to validate
      * @return bool if password provided is valid for current user
      */
-    public function validatePassword($password)
+    public function validatePassword($passwords)
     {
         // return Yii::$app->security->validatePassword($password, $this->password);
-        // $this->password = hash('sha512',$password);
-        return (hash('sha512',$password)==$this->password) ? true : false;
+        return (hash('sha512',$passwords)===$this->password) ? true : false;
     }
     /**
      * Generates password hash from password and sets it to the model
      *
      * @param string $password
      */
-    public function setPassword($password)
+    public function setPassword($passwords)
     {
         // $this->password = Yii::$app->security->generatePasswordHash($password);
-        $this->password = hash('sha512',$password);
+        $this->password = hash('sha512',$passwords);
 
     }
     /**

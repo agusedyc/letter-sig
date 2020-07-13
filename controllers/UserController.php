@@ -111,11 +111,11 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            $model->setPassword($model->password_hash);
+            $model->setPassword($model->password);
             $model->status = $model->status==1?1:0;
             
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'User berhasil dibuat dengan password [$model->password_hash]');
+                Yii::$app->session->setFlash('success', 'User berhasil dibuat dengan password [$model->password]');
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 Yii::$app->session->setFlash('error',$model->getErrors());
