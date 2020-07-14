@@ -42,13 +42,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'updated_at:datetime',
                     //'verification_token',
 
-                    ['class' => 'yii\grid\ActionColumn'],
-                    // [
-                    //   'class' => 'yii\grid\ActionColumn',
-                    //   'template' => Mimin::filterActionColumn([
-                    //       'view','update','delete'
-                    //   ],$this->context->route),
-                    // ],
+                    // ['class' => 'yii\grid\ActionColumn'],
+                    [
+                      'class' => 'yii\grid\ActionColumn',
+                      'template' => Mimin::filterActionColumn([
+                          'view','update','delete'
+                      ],$this->context->route),
+                    ],
                 ],
             ]); ?>
 

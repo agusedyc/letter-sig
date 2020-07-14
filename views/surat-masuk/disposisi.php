@@ -59,7 +59,13 @@ $this->params['breadcrumbs'][] = $this->title;
             //'file',
             //'path_file',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            // ['class' => 'yii\grid\ActionColumn'],
+            [
+              'class' => 'yii\grid\ActionColumn',
+              'template' => Mimin::filterActionColumn([
+                  'view','update','delete'
+              ],$this->context->route),
+            ],
         ],
     ]); ?>
 
