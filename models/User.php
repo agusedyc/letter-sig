@@ -32,7 +32,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
     public $new_password;
     public $repeat_password;
-    public $old_password;
 
     /**
      * {@inheritdoc}
@@ -82,9 +81,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['username'], 'string', 'max' => 255],
             [['password'], 'string', 'min' => 8],
             [['jabatan_id','status','last_login_at','created_by','updated_by'],'integer'],
-            [['old_password', 'new_password', 'repeat_password'], 'string', 'min' => 6],
+            [['new_password', 'repeat_password'], 'string', 'min' => 6],
             [['repeat_password'], 'compare', 'compareAttribute' => 'new_password'],
-            [['old_password', 'new_password', 'repeat_password'], 'required', 'when' => function ($model) {
+            [['new_password', 'repeat_password'], 'required', 'when' => function ($model) {
                 return (!empty($model->new_password));
             }, 'whenClient' => "function (attribute, value) {
                 return ($('#user-new_password').val().length>0);

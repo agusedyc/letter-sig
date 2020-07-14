@@ -34,15 +34,55 @@ $this->params['breadcrumbs'][] = $this->title;
                 'model' => $model,
                 'attributes' => [
                     // 'id',
+                    'nama_lengkap',
+                    [
+                        'label' => 'Jabatan',
+                        'attribute' => 'jabatan_id',
+                        'format' => 'raw',
+                        'value' =>  function($model){
+                            return $model->jabatan->nama_jabatan;
+                        },
+                    ],
+                    'nip',
                     'username',
                     // 'auth_key',
                     // 'password_hash',
                     // 'password_reset_token',
                     // 'email:email',
-                    'status',
-                    'created_at',
-                    'updated_at',
-                    // 'verification_token',
+                    // 'status',
+                    [
+                        'label' => 'Status',
+                        'attribute' => 'status',
+                        'format' => 'raw',
+                        'value' =>  function($model){
+                            if ($model->status===1) {
+                                return 'Aktif';   
+                            }else{
+                                return 'Tidak Aktif';
+                            }
+                        },
+                    ],
+                    [
+                        'label' => 'Dibuat Oleh',
+                        'attribute' => 'created_by',
+                        'format' => 'raw',
+                        'value' =>  function($model){
+                            return $model->createdBy->nama_lengkap;
+                        },
+                    ],
+                    [
+                        'label' => 'Diupdate Oleh',
+                        'attribute' => 'updated_by',
+                        'format' => 'raw',
+                        'value' =>  function($model){
+                            return $model->updatedBy->nama_lengkap;
+                        },
+                    ],
+                    // 'createBy.nama_lengkap',
+                    // 'updatedBy.nama_lengkap',
+                    'created_at:datetime',
+                    'updated_at:datetime',
+                    
                 ],
             ]) ?>
         </div>
