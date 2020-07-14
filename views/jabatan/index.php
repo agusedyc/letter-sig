@@ -32,13 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id',
             'nama_jabatan',
 
-            ['class' => 'yii\grid\ActionColumn'],
-            // [
-            //   'class' => 'yii\grid\ActionColumn',
-            //   'template' => Mimin::filterActionColumn([
-            //       'update','delete','download'
-            //   ],$this->context->route),
-            // ]
+            // ['class' => 'yii\grid\ActionColumn'],
+            [
+              'class' => 'yii\grid\ActionColumn',
+              'template' => Mimin::filterActionColumn([
+                  'view','update','delete'
+              ],$this->context->route),
+            ],
         ],
     ]); ?>
 
