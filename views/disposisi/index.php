@@ -35,6 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->suratMasuk->no_surat;
                 },
             ],
+            [
+                'label' => 'Dibuat',
+                // 'attribute' => 'tujuan_id',
+                'format' => 'raw',
+                'value' =>  function($model){
+                    return $model->dibuat->nama_lengkap;
+                },
+            ],
             'tgl_terima',
             'keamanan.keamanan',
             'kecepatan.kecepatan',
@@ -52,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'ringkas_dispo',
                 'format' => 'raw',
                 'value' =>  function($model){
-                    return $model->letterDecrypt($model->ringkas_dispo,$model->dibuat->password,$model->tujuan->password);
+                    return $model->ringkas_dispo;
                 },
             ],
             'keterangan',
@@ -77,6 +85,24 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update} {delete}',
+                'buttons' => [
+                'update' => function ($url,$model) {
+                        if (Yii::$app->user->id == $model->created_by) {
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url);
+                        }
+                    },
+                'delete' => function ($url,$model) {
+                        if (Yii::$app->user->id == $model->created_by) {
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
+                                    // 'class' => 'btn btn-danger',
+                                    'data' => [
+                                        'confirm' => 'Are you sure you want to delete this item?',
+                                        'method' => 'post',
+                                    ],
+                                ]);
+                        }
+                    },
+                ],
             ],
 
 
