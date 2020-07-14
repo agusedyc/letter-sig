@@ -85,7 +85,7 @@ class DisposisiController extends Controller
         $kecepatan = ArrayHelper::map(Kecepatan::find()->asArray()->all(), 'id', 'kecepatan');
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->surat_masuk_id = $model->surat_masuk_id;
+            $model->surat_masuk_id = $findDisposisi->surat_masuk_id;
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);   
             }
@@ -119,7 +119,7 @@ class DisposisiController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             // Encript Disposisi By Create
-            // $model->ringkas_dispo = $model->letterEncrypt($model->ringkas_dispo,$model->dibuat->password,User::findOne($model->tujuan_id)->password);
+            // $model->ringkas_dispo = $model->letterEncrypt($this->ringkas_dispo,$this->dibuat->password,$this->tujuan->password);
             $model->surat_masuk_id = $id;
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);   
@@ -148,14 +148,14 @@ class DisposisiController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->ringkas_dispo = $model->letterDecrypt($model->ringkas_dispo,$model->suratMasuk->tujuanDispo->password,User::findOne($model->tujuan_id)->password);
+        // $model->ringkas_dispo = $model->letterDecrypt($model->ringkas_dispo,$model->suratMasuk->tujuanDispo->password,User::findOne($model->tujuan_id)->password);
         $surat = SuratMasuk::findOne($id);
         $users = ArrayHelper::map(User::find()->asArray()->all(), 'id', 'nama_lengkap');
         $keamanan = ArrayHelper::map(Keamanan::find()->asArray()->all(), 'id', 'keamanan');
         $kecepatan = ArrayHelper::map(Kecepatan::find()->asArray()->all(), 'id', 'kecepatan');
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->ringkas_dispo = $model->letterEncrypt($model->ringkas_dispo,Yii::$app->user->identity->password,User::findOne($model->tujuan_id)->password);
+            // $model->ringkas_dispo = $model->letterEncrypt($model->ringkas_dispo,Yii::$app->user->identity->password,User::findOne($model->tujuan_id)->password);
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);    
             }
