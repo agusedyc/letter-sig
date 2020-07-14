@@ -33,7 +33,7 @@ use yii\widgets\DetailView;
                 'attribute' => 'ringkas_dispo',
                 'format' => 'raw',
                 'value' =>  function($model){
-                    return $model->letterDecrypt($model->ringkas_dispo,$model->dibuat->password,$model->tujuan->password);
+                    return $model->ringkas_dispo;
                 },
             ],
             'keterangan',

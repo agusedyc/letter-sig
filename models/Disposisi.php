@@ -151,4 +151,18 @@ class Disposisi extends \yii\db\ActiveRecord
         return Yii::$app->getSecurity()->decryptByPassword($data, $keySent.$keyRecived);
     }
 
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+        $this->ringkas_dispo = $this->letterEncrypt($this->ringkas_dispo,$this->dibuat->password,$this->tujuan->password);
+        return true;
+    }
+
+    public function afterFind(){
+        $this->ringkas_dispo = $this->letterDecrypt($this->ringkas_dispo,$this->dibuat->password,$this->tujuan->password);
+        parent::afterFind();
+    }
+
 }

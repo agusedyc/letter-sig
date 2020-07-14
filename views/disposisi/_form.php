@@ -62,6 +62,8 @@ use yii\widgets\DetailView;
 
     <!-- <?= $form->field($model, 'surat_masuk_id')->textInput() ?> -->
 
+    <?= $form->field($model, 'surat_masuk_id')->hiddenInput()->label(false); ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         <?= Html::a('Back', ['index'], ['class' => 'btn btn-warning']) ?>
