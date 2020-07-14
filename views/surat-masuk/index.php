@@ -1,7 +1,8 @@
 <?php
 
-use yii\helpers\Html;
+use hscstudio\mimin\components\Mimin;
 use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SuratMasukSearch */
@@ -15,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Surat Masuk', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= ((Mimin::checkRoute($this->context->id.'/create',true))) ?  Html::a(Yii::t('app', 'Create Surat Masuk'), ['create'], ['class' => 'btn btn-success']) : null ?>
     </p>
 
     <?php Pjax::begin(); ?>

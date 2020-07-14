@@ -32,7 +32,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public $new_password;
     public $repeat_password;
     public $old_password;
-    // public $password;
 
     /**
      * {@inheritdoc}
@@ -71,7 +70,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             // [['email'], 'email'],
             [['password'], 'string', 'min' => 8],
             ['status','integer'],
-            // ['instansi_id','integer'],
+            ['jabatan_id','integer'],
             [['old_password', 'new_password', 'repeat_password'], 'string', 'min' => 6],
             [['repeat_password'], 'compare', 'compareAttribute' => 'new_password'],
             [['old_password', 'new_password', 'repeat_password'], 'required', 'when' => function ($model) {
@@ -98,7 +97,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'status' => Yii::t('app', 'Status'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
-            // 'verification_token' => Yii::t('app', 'Verification Token'),
+            'jabatan_id' => Yii::t('app', 'Jabatan'),
         ];
     }
 

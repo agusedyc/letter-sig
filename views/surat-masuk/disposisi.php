@@ -1,7 +1,8 @@
 <?php
 
-use yii\helpers\Html;
+use hscstudio\mimin\components\Mimin;
 use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SuratMasukSearch */
@@ -45,10 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' =>  function($model){
                     if (!empty($model->disposisi)) {
                         return 'Terdisposisi';
-                        // return Html::a('Terdisposisi', ['view', 'id' => $model->id]);
                     }else{
                         // return 'Belum Disposisi';
-                        return Html::a('Buat Disposisi', ['disposisi/surat-create', 'id' => $model->id]);
+                        return ((Mimin::checkRoute('disposisi/surat-create',true))) ? Html::a(Yii::t('app', 'Buat Disposisi'), ['disposisi/surat-create', 'id' => $model->id]) : null;
+                        // return Html::a('Buat Disposisi', ['disposisi/surat-create', 'id' => $model->id]);
                     }
                 },
             ],

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Jabatan;
 use app\models\User;
 use app\models\UserSearch;
 use hscstudio\mimin\models\AuthAssignment;
@@ -108,6 +109,7 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
+        $jabatan = ArrayHelper::map(Jabatan::find()->asArray()->all(), 'id', 'nama_jabatan');
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -124,6 +126,7 @@ class UserController extends Controller
         }else{
             return $this->render('create', [
                 'model' => $model,
+                'jabatan' => $jabatan,
             ]);
         }
     }
@@ -138,6 +141,7 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $jabatan = ArrayHelper::map(Jabatan::find()->asArray()->all(), 'id', 'jabatan');
 
         if ($model->load(Yii::$app->request->post())) {
             $model->setPassword($model->new_password);  
@@ -149,6 +153,7 @@ class UserController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'jabatan' => $jabatan,
         ]);
     }
 

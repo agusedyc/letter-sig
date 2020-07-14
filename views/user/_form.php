@@ -1,6 +1,7 @@
 <?php
 
 use kartik\switchinput\SwitchInput;
+use kartik\widgets\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -19,6 +20,14 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'nip')->textInput() ?>
 
+            <?= $form->field($model, 'jabatan_id')->widget(Select2::classname(), [
+                'data' => $jabatan,
+                'options' => ['placeholder' => 'Select ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]); ?>
+
             <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
             <?php if (!$model->isNewRecord) { ?>
@@ -29,7 +38,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'old_password') ?>
             <?php } else { ?>
 
-                <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
 
             <?php } ?>
 
