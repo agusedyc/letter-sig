@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <?= Html::a(Yii::t('app', 'Create User'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= ((Mimin::checkRoute($this->context->id.'/create',true))) ?  Html::a(Yii::t('app', 'Create Users'), ['create'], ['class' => 'btn btn-success']) : null ?>
         </div>
         <div class="panel-body table-responsive">
             <?php Pjax::begin(); ?>
