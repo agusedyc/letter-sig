@@ -11,11 +11,11 @@ use yii\bootstrap\Nav;
         <div class="user-panel">
             <div class="pull-left image">
                 <!-- <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/> -->
-                <br><br>
+                <br><br><br><br>
             </div>
             <div class="pull-left info">
                 <p><?= Yii::$app->user->identity->nama_lengkap?></p>
-
+                <h5><?= Yii::$app->user->identity->jabatan->nama_jabatan?></h5>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>

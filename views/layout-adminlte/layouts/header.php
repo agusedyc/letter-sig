@@ -240,6 +240,7 @@ use yii\helpers\Html;
 
                             <p>
                                 <?= Yii::$app->user->identity->nama_lengkap?>
+                                <small><?= Yii::$app->user->identity->jabatan->nama_jabatan?></small>
                                 <small>Terdaftar sejak <?= Yii::$app->formatter->asDate(Yii::$app->user->identity->created_at, 'long') ?></small>
                             </p>
                         </li>
