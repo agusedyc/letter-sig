@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use hscstudio\mimin\models\AuthAssignment;
 use yii\base\NotSupportedException;
+use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\httpclient\Client;
@@ -36,19 +37,32 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'user';
+    }
+
+    public function behaviors()
+    {
+       return [
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+            // 'sluggable' => [
+            //     'class' => SluggableBehavior::className(),
+            //     'attribute' => 'name',
+            //     'slugAttribute' => 'slug',
+            // ],
+        ];
     }
 
     /**
@@ -57,20 +71,17 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            // ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            // ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             [['nip'], 'required'],
             [['nip'], 'string', 'length' => [18,18]],
+            // [['nip', 'unique'], 'message' => Yii:t('app','NIP Already exists')],
             [['nama_lengkap'], 'required'],
             [['nama_lengkap'], 'string'],
-            // ['nip', 'unique'],
-            // [['nip', 'unique'], 'message' => Yii:t('app','NIP Already exists')],
             [['username'], 'required'],
-            [['username', 'verification_token'], 'string', 'max' => 255],
-            // [['email'], 'email'],
+            [['username'], 'string', 'max' => 255],
             [['password'], 'string', 'min' => 8],
-            ['status','integer'],
-            ['jabatan_id','integer'],
+            [['jabatan_id','status','last_login_at','created_by','updated_by'],'integer'],
             [['old_password', 'new_password', 'repeat_password'], 'string', 'min' => 6],
             [['repeat_password'], 'compare', 'compareAttribute' => 'new_password'],
             [['old_password', 'new_password', 'repeat_password'], 'required', 'when' => function ($model) {
@@ -92,11 +103,13 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'auth_key' => Yii::t('app', 'Auth Key'),
             'password' => Yii::t('app', 'Password'),
             'nip' => Yii::t('app', 'NIP'),
-            // 'password_reset_token' => Yii::t('app', 'Password Reset Token'),
             'nama_lengkap' => Yii::t('app', 'Nama Lengkap'),
             'status' => Yii::t('app', 'Status'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'last_login_at' => Yii::t('app', 'Last Login'),
+            'created_at' => Yii::t('app', 'Dibuat Pada'),
+            'updated_at' => Yii::t('app', 'Diupdate Pada'),
+            'created_at' => Yii::t('app', 'Dibuat'),
+            'updated_at' => Yii::t('app', 'Diupdate'),
             'jabatan_id' => Yii::t('app', 'Jabatan'),
         ];
     }
@@ -115,13 +128,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
-    /**
-     * {@inheritdoc}
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-    }
+    
     /**
      * Finds user by username
      *
@@ -142,37 +149,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return static::findOne(['nip' => $nip, 'status' => self::STATUS_ACTIVE]);
     }
-    /**
-     * Finds user by password reset token
-     *
-     * @param string $token password reset token
-     * @return static|null
-     */
-    public static function findByPasswordResetToken($token)
-    {
-        if (!static::isPasswordResetTokenValid($token)) {
-            return null;
-        }
-        return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
-        ]);
-    }
-    /**
-     * Finds out if password reset token is valid
-     *
-     * @param string $token password reset token
-     * @return bool
-     */
-    public static function isPasswordResetTokenValid($token)
-    {
-        if (empty($token)) {
-            return false;
-        }
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
-        return $timestamp + $expire >= time();
-    }
+    
     /**
      * {@inheritdoc}
      */
@@ -223,6 +200,52 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRoles()
+    {
+        return $this->hasMany(AuthAssignment::className(), [
+            'user_id' => 'id',
+        ]);
+    }
+
+    public function getJabatan()
+    {
+        return $this->hasOne(Jabatan::className(), ['id' => 'jabatan_id']);
+    }
+
+    public function afterLogout()
+    {
+        // parent::afterLogout();
+        return $this->last_login_at = time();
+    }
+
+    public function getCreatedBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
+    public function getUpdatedBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // 
+    // Unussed Functions
+    // 
+
     /**
      * Generates new password reset token
      */
@@ -239,17 +262,44 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * {@inheritdoc}
      */
-    public function getRoles()
+    public static function findIdentityByAccessToken($token, $type = null)
     {
-        return $this->hasMany(AuthAssignment::className(), [
-            'user_id' => 'id',
+        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+    }
+
+    /**
+     * Finds user by password reset token
+     *
+     * @param string $token password reset token
+     * @return static|null
+     */
+    public static function findByPasswordResetToken($token)
+    {
+        if (!static::isPasswordResetTokenValid($token)) {
+            return null;
+        }
+        return static::findOne([
+            'password_reset_token' => $token,
+            'status' => self::STATUS_ACTIVE,
         ]);
     }
 
-    public function getJabatan()
+    /**
+     * Finds out if password reset token is valid
+     *
+     * @param string $token password reset token
+     * @return bool
+     */
+    public static function isPasswordResetTokenValid($token)
     {
-        return $this->hasOne(Jabatan::className(), ['id' => 'jabatan_id']);
+        if (empty($token)) {
+            return false;
+        }
+        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        return $timestamp + $expire >= time();
     }
+
 }
