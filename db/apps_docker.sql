@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb
--- Generation Time: Jul 13, 2020 at 10:53 AM
+-- Generation Time: Jul 14, 2020 at 01:55 PM
 -- Server version: 10.3.18-MariaDB-1:10.3.18+maria~bionic
 -- PHP Version: 7.2.22
 
@@ -43,6 +43,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Pejabat', '3', 1594542478),
 ('Pejabat', '4', 1594626001),
 ('Pejabat', '5', 1594626031),
+('Pejabat', '7', 1594718221),
 ('Pengelola', '6', 1594637235);
 
 -- --------------------------------------------------------
@@ -88,8 +89,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/surat-masuk/view', 2, NULL, NULL, NULL, 1594637327, 1594637327),
 ('/user/*', 2, NULL, NULL, NULL, 1594637135, 1594637135),
 ('Administrator', 1, NULL, NULL, NULL, 1594446670, 1594637030),
-('Pejabat', 1, NULL, NULL, NULL, 1594446696, 1594635628),
-('Pengelola', 1, NULL, NULL, NULL, 1594637119, 1594637331);
+('Pejabat', 1, NULL, NULL, NULL, 1594446696, 1594721114),
+('Pengelola', 1, NULL, NULL, NULL, 1594637119, 1594719356);
 
 -- --------------------------------------------------------
 
@@ -115,9 +116,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Pengelola', '/jabatan/*'),
 ('Pengelola', '/keamanan/*'),
 ('Pengelola', '/kecepatan/*'),
-('Pengelola', '/mimin/*'),
 ('Pengelola', '/mimin/role/*'),
-('Pengelola', '/mimin/route/*'),
 ('Pengelola', '/mimin/user/*'),
 ('Pengelola', '/site/index'),
 ('Pengelola', '/site/logout'),
@@ -167,7 +166,9 @@ CREATE TABLE `disposisi` (
 --
 
 INSERT INTO `disposisi` (`id`, `tgl_terima`, `tujuan_id`, `ringkas_dispo`, `keterangan`, `id_keamanan`, `id_kecepatan`, `surat_masuk_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(2, '13-07-2020', 4, 0x88af192e9d178be4816561ea879767766265396461393063396432346138333531333938623638353861333364633166653339613231623864616139346130653034663639623963633037383031346214a7854aea07134da886cbaa2757c05ecd3a5f0944658610e4674e994f89ff6b, 'Keterangan', 1, 1, 3, 3, 3, 1594636111, 1594636173);
+(2, '13-07-2020', 4, 0xdf9604227b27553e83740b01f8dae669396262376533646335663366313935316164303861646664666566363563356630316365343362623931323931643862356464613536633464326133356435616ff05f3ef1540e74d2ed8ab388ca4fc5713c61af427b8c21ad95706c18f88589a96d286211fbddaea91f70425fdb6672, 'Keterangan', 1, 1, 3, 3, 3, 1594636111, 1594692392),
+(5, '14-07-2020', 5, 0x2a94231a65b5fa45b920e694ec94ad2438613966343434623734333939373266323238333962613062666564623430623234653662353331393236623039386366393937316636653134313031613064c20976dd910df7b626d36f015caa5c360ed8f5defdb8bc818941ab07532fa6bf8bf6af70fcec20d61936a3d7cba7cf7c, 'Keterangan', 1, 1, 3, 4, 4, 1594690738, 1594693061),
+(6, '14-07-2020', 5, 0x6d7f497bac30ba7469a1704cb2296b25333035623832633339623564633763333239383662353033616536333232623435373933643766363039373230323236346331313234376266336436326361390deb6773b1f550abc00682eea0e995db776c13d66d95dc02b905db7de809d427ec3b4ac7ed9e18b19e2645164f008c8e, 'Keterangan', 1, 1, 3, 3, 3, 1594691861, 1594691861);
 
 -- --------------------------------------------------------
 
@@ -393,7 +394,7 @@ CREATE TABLE `surat_masuk` (
 --
 
 INSERT INTO `surat_masuk` (`id`, `tujuan_dispo_id`, `no_surat`, `asal_surat`, `ringkas_surat`, `keterangan`, `tgl_surat`, `tgl_terima`, `file`, `path_file`, `id_keamanan`, `id_kecepatan`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(2, 2, 'HJT/28/XXI/2020', 'Asal Surat', 'Ringkasan Surat', 'Keterangan Surat', '10-07-2020', '23-07-2020', 'uploads/surat//glass2002.pdf', NULL, 1, 1, 2, 2, NULL, NULL),
+(2, 4, 'HJT/28/XXI/2020', 'Asal Surat', 'Ringkasan Surat', 'Keterangan Surat', '10-07-2020', '23-07-2020', 'uploads/surat//glass2002.pdf', NULL, 1, 1, 2, 6, NULL, 1594721126),
 (3, 3, 'IX/123/CC7/VII/2020', 'Bogor', 'Ringkasan Surat', 'Keterangan', '07-07-2020', '14-07-2020', 'uploads/surat//glass2002.pdf', NULL, 1, 1, 2, 2, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -409,27 +410,30 @@ CREATE TABLE `user` (
   `nip` varchar(20) DEFAULT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `level_user` int(1) DEFAULT NULL,
   `status` int(2) NOT NULL,
-  `last_login_at` int(11) DEFAULT NULL,
   `auth_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(32) DEFAULT NULL,
-  `verification_token` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `password_reset_token` varchar(255) DEFAULT NULL,
+  `last_login_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL
+  `updated_at` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `x_level_user` int(1) DEFAULT NULL,
+  `x_email` varchar(32) DEFAULT NULL,
+  `x_verification_token` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `x_password_reset_token` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `jabatan_id`, `nama_lengkap`, `nip`, `username`, `password`, `level_user`, `status`, `last_login_at`, `auth_key`, `email`, `verification_token`, `password_reset_token`, `created_at`, `updated_at`) VALUES
-(2, NULL, 'Administartor', '123456789123456789', 'admin', 'cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1594451736, 1594635025),
-(3, NULL, 'Pejabat1', '123456789123456789', 'pejabat1', '937f135ebf3ec6ecd1ef2045927b4f886f3b67649a898af1c00d3b070b5461933712d5a936823826890755bec115874eacfab111f73a52d569a48facf364bcc3', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1594526345, 1594635773),
-(4, NULL, 'Pejabat2', '123456789123456789', 'pejabat2', '76dde58dc79493bf1e049d6d1efec5eb4e595297fccb8a3437201e0e197e111c7316369c9a8aed159ee70d12ccead80b1ac22f62ff2b2a1eb3bd87fc1f3c3e7b', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1594625997, 1594625997),
-(5, NULL, 'Pejabat 3', '789456123789456132', 'pejabat3', '5f81cc708446dc6e63e9e75dd0bb4c776b31c173eb389702df72ee5c87e39db9308e415be2d97f3da709288cace3397b8504342ea40bb4c77e6a43be64fcfefd', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1594626027, 1594626027),
-(6, NULL, 'Administrator', '123456789123456798', 'pengelola', 'cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e', NULL, 1, NULL, NULL, NULL, NULL, NULL, 1594637229, 1594637289);
+INSERT INTO `user` (`id`, `jabatan_id`, `nama_lengkap`, `nip`, `username`, `password`, `status`, `auth_key`, `last_login_at`, `created_at`, `updated_at`, `created_by`, `updated_by`, `x_level_user`, `x_email`, `x_verification_token`, `x_password_reset_token`) VALUES
+(2, 1, 'Administartor', '123456789123456789', 'admin', '937f135ebf3ec6ecd1ef2045927b4f886f3b67649a898af1c00d3b070b5461933712d5a936823826890755bec115874eacfab111f73a52d569a48facf364bcc3', 1, NULL, NULL, 1594451736, 1594635025, 2, 0, NULL, NULL, NULL, NULL),
+(3, 1, 'Pejabat1', '123456789123456789', 'pejabat1', '588e97830807d70dd4ff7397e4f5b36207a1d023f6f1ba660de82e5fe8c5aa681abad3e21d83ed7e325cab076e7001ce7c32db42c8d07b8ae8042f56b7856175', 1, NULL, NULL, 1594526345, 1594647059, 2, 0, NULL, NULL, NULL, NULL),
+(4, 1, 'Pejabat2', '123456789123456789', 'pejabat2', '76dde58dc79493bf1e049d6d1efec5eb4e595297fccb8a3437201e0e197e111c7316369c9a8aed159ee70d12ccead80b1ac22f62ff2b2a1eb3bd87fc1f3c3e7b', 1, NULL, NULL, 1594625997, 1594625997, 2, 0, NULL, NULL, NULL, NULL),
+(5, 1, 'Pejabat 3', '789456123789456132', 'pejabat3', '5f81cc708446dc6e63e9e75dd0bb4c776b31c173eb389702df72ee5c87e39db9308e415be2d97f3da709288cace3397b8504342ea40bb4c77e6a43be64fcfefd', 1, NULL, NULL, 1594626027, 1594626027, 2, 0, NULL, NULL, NULL, NULL),
+(6, 1, 'Administrator', '123456789123456798', 'pengelola', '90eefed71824b204cc30c3c5900c8f7620eb766bbcebd908eb414f337210d650ea23b1422da06de3faf5640cb40f06fa00d5a6c82a531a608bd5dfe20734bb00', 1, NULL, NULL, 1594637229, 1594647215, 2, 0, NULL, NULL, NULL, NULL),
+(7, 1, 'Naleng', '123456789123456789', 'naleng', '57b94ed13c3d24b64b38c8e47962747b561cc6872abf7ab080a258807d51825711381da40adc1a7d051992cdd165587ae910053915be33b27100dba15c09ec77', 1, NULL, NULL, 1594718213, 1594734598, 2, 6, NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -532,7 +536,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `disposisi`
 --
 ALTER TABLE `disposisi`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `jabatan`
@@ -568,7 +572,7 @@ ALTER TABLE `surat_masuk`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

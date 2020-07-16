@@ -84,8 +84,13 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'created:datetime',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {delete}',
+                'template' => '{view} {cetak} {update} {delete}',
                 'buttons' => [
+                'cetak' => function ($url,$model) {
+                        if (Yii::$app->user->id == $model->created_by) {
+                            return Html::a('<span class="glyphicon glyphicon-print"></span>', ['cetak','id' => $model->id]);
+                        }
+                    },
                 'update' => function ($url,$model) {
                         if (Yii::$app->user->id == $model->created_by) {
                             return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url);

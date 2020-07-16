@@ -31,6 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     // 'id',
                     'nama_lengkap',
+                    [
+                        'label' => 'Jabatan',
+                        'attribute' => 'jabatan_id',
+                        'format' => 'raw',
+                        'value' =>  function($model){
+                            return $model->jabatan->nama_jabatan;
+                        },
+                    ],
                     'nip',
                     'username',
                     // 'auth_key',

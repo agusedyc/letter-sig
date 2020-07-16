@@ -35,7 +35,6 @@ use yii\widgets\ActiveForm;
                 <div class="ui divider"></div>
                 <?= $form->field($model, 'new_password') ?>
                 <?= $form->field($model, 'repeat_password') ?>
-                <?= $form->field($model, 'old_password') ?>
             <?php } else { ?>
 
                 <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>

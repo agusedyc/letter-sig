@@ -141,7 +141,7 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $jabatan = ArrayHelper::map(Jabatan::find()->asArray()->all(), 'id', 'jabatan');
+        $jabatan = ArrayHelper::map(Jabatan::find()->asArray()->all(), 'id', 'nama_jabatan');
 
         if ($model->load(Yii::$app->request->post())) {
             $model->setPassword($model->new_password);  

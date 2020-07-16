@@ -27,6 +27,7 @@ $config = [
             // 'site/*',
             // 'site/login',
             // dev Mode
+            // 'disposisi/*',
             // 'gii/*',
             // 'debug/*',
             // 'mimin/*', // only in dev mode

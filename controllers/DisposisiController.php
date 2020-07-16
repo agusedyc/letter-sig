@@ -10,6 +10,7 @@ use app\models\Kecepatan;
 use app\models\SuratMasuk;
 use app\models\SuratMasukSearch;
 use app\models\User;
+use mzk10k\tcpdf\TCPDF;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -198,5 +199,45 @@ class DisposisiController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionCetak($id)
+    {
+        $model = $this->findModel($id);
+        $surat = SuratMasuk::findOne($model->suratMasuk->id);
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor($model->dibuat->nama_lengkap);
+        $pdf->SetTitle('Surat dari '.$surat->asal_surat.', Nomor : '.$surat->no_surat);
+        $pdf->SetSubject('Disposisi Surat No:'.$surat->no_surat);
+        // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+        // ---------------------------------------------------------
+
+        // Add a page
+        // This method has several options, check the source code documentation for more information.
+        $pdf->AddPage();
+
+        // set text shadow effect
+        $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
+
+        // Set some content to print
+        $html = $this->renderPartial('cetak-disposisi', [
+            'model' => $model,
+            'surat' => $surat,
+        ]);
+
+        // Print text using writeHTMLCell()
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
+        // ---------------------------------------------------------
+
+        // Close and output PDF document
+        // This method has several options, check the source code documentation for more information.
+        $pdf->Output('Disposisi Surat No :'.$surat->no_surat.' Oleh : '.$model->dibuat->nama_lengkap.'.pdf', 'I');
+
+        
     }
 }
