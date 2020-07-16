@@ -42,6 +42,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'no_surat',
+            [
+                'label' => 'Document',
+                'attribute' => 'file',
+                'format' => 'raw',
+                'value' => function($data){
+                    // return '<iframe src="https://docs.google.com/viewer?url='.Yii::$app->request->hostInfo.'/'.$data->file.'&embedded=true" style="width:95%; height:500%;" frameborder="0"></iframe>';
+                    return Html::a('Download Surat',[$data->file]);
+                },
+            ],
             'asal_surat',
             'ringkas_surat',
             'keterangan',

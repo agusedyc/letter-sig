@@ -8,3 +8,4 @@ vendor/*
 # web/index.php
 
 web/uploads/letter/*
+web/uploads/surat/

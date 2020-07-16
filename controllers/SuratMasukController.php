@@ -90,7 +90,7 @@ class SuratMasukController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $image = UploadedFile::getInstance($model, 'file');
             if (!empty($image) && $image->size !== 0) {
-                $path = 'uploads/surat/';
+                $path = 'uploads/surat';
                 FileHelper::createDirectory($path);
                 $image->saveAs($path.'/'.$image->name);
                 $model->file = $path.'/'.$image->name;
