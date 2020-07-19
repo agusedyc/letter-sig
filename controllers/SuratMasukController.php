@@ -98,9 +98,8 @@ class SuratMasukController extends Controller
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);   
             }else{
-                echo '<pre>';
-                print_r($model->errors);
-                echo '</pre>';
+                Yii::$app->session->setFlash('error',$model->getErrors());
+                return $this->redirect(['index']);
             }
         }
 
@@ -130,7 +129,7 @@ class SuratMasukController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $image = UploadedFile::getInstance($model, 'file');
             if (!empty($image) && $image->size !== 0) {
-                $path = 'uploads/surat/';
+                $path = 'uploads/surat';
                 FileHelper::createDirectory($path);
                 $image->saveAs($path.'/'.$image->name);
                 $model->file = $path.'/'.$image->name;
@@ -141,9 +140,8 @@ class SuratMasukController extends Controller
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);   
             }else{
-                echo '<pre>';
-                print_r($model->errors);
-                echo '</pre>';
+                Yii::$app->session->setFlash('error',$model->getErrors());
+                return $this->redirect(['index']);
             }
         }
 

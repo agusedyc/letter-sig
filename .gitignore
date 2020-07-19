@@ -9,3 +9,7 @@ vendor/*
 
 web/uploads/letter/*
 web/uploads/surat/
+
+cert/
+
+web/uploads/certificate/

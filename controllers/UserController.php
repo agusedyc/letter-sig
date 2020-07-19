@@ -10,8 +10,10 @@ use hscstudio\mimin\models\AuthAssignment;
 use hscstudio\mimin\models\AuthItem;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -115,7 +117,14 @@ class UserController extends Controller
 
             $model->setPassword($model->password);
             $model->status = $model->status==1?1:0;
-            
+            $image = UploadedFile::getInstance($model, 'certificate');
+            if (!empty($image) && $image->size !== 0) {
+                $path = 'uploads/certificate';
+                FileHelper::createDirectory($path);
+                $image->saveAs($path.'/'.$image->name);
+                $model->certificate = $path.'/'.$image->name;
+            }
+
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'User berhasil dibuat dengan password [$model->password]');
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -123,6 +132,7 @@ class UserController extends Controller
                 Yii::$app->session->setFlash('error',$model->getErrors());
                 return $this->redirect(['index']);
             }
+
         }else{
             return $this->render('create', [
                 'model' => $model,
@@ -141,11 +151,23 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $current_file = $model->certificate;
         $jabatan = ArrayHelper::map(Jabatan::find()->asArray()->all(), 'id', 'nama_jabatan');
 
         if ($model->load(Yii::$app->request->post())) {
             $model->setPassword($model->new_password);  
             $model->status = $model->status==1?1:0;
+
+            $image = UploadedFile::getInstance($model, 'certificate');
+            if (!empty($image) && $image->size !== 0) {
+                $path = 'uploads/certificate';
+                FileHelper::createDirectory($path);
+                $image->saveAs($path.'/'.$image->name);
+                $model->certificate = $path.'/'.$image->name;
+            }else{
+                $model->certificate = $current_file;  
+            }
+
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);   
             }
@@ -186,4 +208,5 @@ class UserController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+    
 }

@@ -32,6 +32,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
     public $new_password;
     public $repeat_password;
+    // public $certificate_password;
+    // public $private_key;
+    // public $public_key;
 
     /**
      * {@inheritdoc}
@@ -80,6 +83,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['username'], 'required'],
             [['username'], 'string', 'max' => 255],
             [['password'], 'string', 'min' => 8],
+            [['certificate'], 'file','skipOnEmpty' => true, 'extensions' => 'p12'],
             [['jabatan_id','status','last_login_at','created_by','updated_by'],'integer'],
             [['new_password', 'repeat_password'], 'string', 'min' => 6],
             [['repeat_password'], 'compare', 'compareAttribute' => 'new_password'],
@@ -110,6 +114,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'created_at' => Yii::t('app', 'Dibuat'),
             'updated_at' => Yii::t('app', 'Diupdate'),
             'jabatan_id' => Yii::t('app', 'Jabatan'),
+            'certificate' => Yii::t('app', 'Certificate'),
         ];
     }
 
@@ -190,7 +195,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         // $this->password = Yii::$app->security->generatePasswordHash($password);
         $this->password = hash('sha512',$passwords);
-
     }
     /**
      * Generates "remember me" authentication key
@@ -230,6 +234,41 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
+
+    public function readCertificate($password,$type)
+    {
+        // Check Certificate Exists
+        if (file_exists($this->certificate)) {
+            if ($cert_store = file_get_contents($this->certificate)) {
+                // Read p12 File
+                if (openssl_pkcs12_read($cert_store, $cert_info, $password)) {
+                    switch ($type) {
+                        case 'cert':
+                            return $cert_info['cert'];
+                            break;
+
+                        case 'pkey':
+                            return $cert_info['pkey'];
+                            break;
+                        
+                        default:
+                            return false;
+                            break;
+                    }
+                } else {
+                    // unable read p12 file
+                    return false;
+                } 
+            }else {
+                // file cantbe read
+                return false;
+            } 
+        }else{
+            // File Missing
+            return false;
+        }
+    }
+
 
 
 
