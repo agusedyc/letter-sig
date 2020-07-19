@@ -26,6 +26,8 @@ use yii\db\ActiveRecord;
  */
 class Disposisi extends \yii\db\ActiveRecord
 {
+    public $certificate_password;
+
     /**
      * {@inheritdoc}
      */
@@ -63,7 +65,7 @@ class Disposisi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tgl_terima', 'tujuan_id', 'ringkas_dispo', 'keterangan', 'id_keamanan', 'id_kecepatan'], 'required'],
+            [['tgl_terima', 'tujuan_id', 'ringkas_dispo', 'keterangan', 'id_keamanan', 'id_kecepatan','certificate_password'], 'required'],
             [['tujuan_id', 'id_keamanan', 'id_kecepatan', 'surat_masuk_id','created_at','updated_at','created_by','updated_by'], 'integer'],
             [['tgl_terima'], 'string', 'max' => 50],
             [['ringkas_dispo'], 'string'],

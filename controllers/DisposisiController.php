@@ -65,6 +65,14 @@ class DisposisiController extends Controller
     public function actionView($id)
     {   $model = $this->findModel($id);
         $surat = SuratMasuk::findOne($model->suratMasuk->id);
+
+         if ($model->load(Yii::$app->request->post())) {
+            // $certificate_password = Yii::$app->request->post('Disposisi')['certificate_password'];
+            if (!empty($model->certificate_password)) {
+                $this->cetakDispo($id,$model->certificate_password);
+            }
+        }
+
         return $this->render('view', [
             'model' => $model,
             'surat' => $surat,
@@ -201,9 +209,11 @@ class DisposisiController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionCetak($id)
+    public function cetakDispo($id,$password)
     {
         $model = $this->findModel($id);
+        $crt = $model->dibuat->readCertificate($password,'cert');
+        $pkey = $model->dibuat->readCertificate($password,'pkey');
         $surat = SuratMasuk::findOne($model->suratMasuk->id);
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -212,7 +222,6 @@ class DisposisiController extends Controller
         $pdf->SetAuthor($model->dibuat->nama_lengkap);
         $pdf->SetTitle('Surat dari '.$surat->asal_surat.', Nomor : '.$surat->no_surat);
         $pdf->SetSubject('Disposisi Surat No:'.$surat->no_surat);
-        // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
         // ---------------------------------------------------------
 
@@ -233,6 +242,33 @@ class DisposisiController extends Controller
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
         // ---------------------------------------------------------
+        // Signature Proses Skip If Password Empty
+        // if (!empty($password)) {
+            // set additional information
+            $info = array(
+                'Name' => $model->dibuat->nama_lengkap,
+                'Location' => 'Office',
+                'Reason' => 'Disposisi Surat No:'.$surat->no_surat,
+                'ContactInfo' => Yii::$app->request->hostInfo,
+                );
+
+            // set document signature
+            $pdf->setSignature($crt, $pkey, $password, '', 2, $info);
+
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+            // *** set signature appearance ***
+
+            // create content for signature (image and/or text)
+            // $pdf->Image('images/tcpdf_signature.png', 180, 60, 15, 15, 'PNG');
+
+            // define active area for signature appearance
+            // $pdf->setSignatureAppearance(180, 60, 15, 15);
+
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+            // *** set an empty signature appearance ***
+            // $pdf->addEmptySignatureAppearance(180, 80, 15, 15);   
+        // }
 
         // Close and output PDF document
         // This method has several options, check the source code documentation for more information.
