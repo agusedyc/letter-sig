@@ -17,7 +17,7 @@ $config = [
          'allowActions' => [
             // add wildcard allowed action here!
             // '*',
-            'user/*',
+            // 'user/*',
             // 'user/profile/*',
             // 'user/security/*',
             // 'user/recovery/*',

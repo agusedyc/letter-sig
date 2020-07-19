@@ -61,9 +61,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-         if (Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             return $this->redirect(['login']);
         }
+
+        if (Yii::$app->user->identity->created_by===Yii::$app->user->identity->updated_by || empty(Yii::$app->user->identity->certificate)) {
+            Yii::$app->session->setFlash('warning', 'Silahkan Ganti Password dan Upload File Certificate P12');
+                return $this->redirect(['user/update', 'id' => Yii::$app->user->id]);
+        }
+        // echo '<pre>';
+        // print_r(Yii::$app->user->identity->created_by);
+        // echo '<br>';
+        // print_r(Yii::$app->user->identity->updated_by);
+        // echo '</pre>';
         return $this->render('index');
     }
 
