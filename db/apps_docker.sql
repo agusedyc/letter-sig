@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb
--- Generation Time: Jul 14, 2020 at 01:55 PM
+-- Generation Time: Jul 19, 2020 at 09:29 AM
 -- Server version: 10.3.18-MariaDB-1:10.3.18+maria~bionic
 -- PHP Version: 7.2.22
 
@@ -44,6 +44,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Pejabat', '4', 1594626001),
 ('Pejabat', '5', 1594626031),
 ('Pejabat', '7', 1594718221),
+('Pejabat', '8', 1594952450),
 ('Pengelola', '6', 1594637235);
 
 -- --------------------------------------------------------
@@ -88,8 +89,10 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/surat-masuk/update', 2, NULL, NULL, NULL, 1594637326, 1594637326),
 ('/surat-masuk/view', 2, NULL, NULL, NULL, 1594637327, 1594637327),
 ('/user/*', 2, NULL, NULL, NULL, 1594637135, 1594637135),
+('/user/update', 2, NULL, NULL, NULL, 1595150144, 1595150144),
+('/user/view', 2, NULL, NULL, NULL, 1595150424, 1595150424),
 ('Administrator', 1, NULL, NULL, NULL, 1594446670, 1594637030),
-('Pejabat', 1, NULL, NULL, NULL, 1594446696, 1594721114),
+('Pejabat', 1, NULL, NULL, NULL, 1594446696, 1595150426),
 ('Pengelola', 1, NULL, NULL, NULL, 1594637119, 1594719356);
 
 -- --------------------------------------------------------
@@ -113,6 +116,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Pejabat', '/site/index'),
 ('Pejabat', '/site/logout'),
 ('Pejabat', '/surat-masuk/disposisi'),
+('Pejabat', '/user/update'),
+('Pejabat', '/user/view'),
 ('Pengelola', '/jabatan/*'),
 ('Pengelola', '/keamanan/*'),
 ('Pengelola', '/kecepatan/*'),
@@ -394,8 +399,9 @@ CREATE TABLE `surat_masuk` (
 --
 
 INSERT INTO `surat_masuk` (`id`, `tujuan_dispo_id`, `no_surat`, `asal_surat`, `ringkas_surat`, `keterangan`, `tgl_surat`, `tgl_terima`, `file`, `path_file`, `id_keamanan`, `id_kecepatan`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(2, 4, 'HJT/28/XXI/2020', 'Asal Surat', 'Ringkasan Surat', 'Keterangan Surat', '10-07-2020', '23-07-2020', 'uploads/surat//glass2002.pdf', NULL, 1, 1, 2, 6, NULL, 1594721126),
-(3, 3, 'IX/123/CC7/VII/2020', 'Bogor', 'Ringkasan Surat', 'Keterangan', '07-07-2020', '14-07-2020', 'uploads/surat//glass2002.pdf', NULL, 1, 1, 2, 2, NULL, NULL);
+(2, 4, 'HJT/28/XXI/2020', 'Asal Surat', 'Ringkasan Surat', 'Keterangan Surat', '10-07-2020', '23-07-2020', 'uploads/surat/glass2002.pdf', NULL, 1, 1, 2, 6, NULL, 1594721126),
+(3, 3, 'IX/123/CC7/VII/2020', 'Bogor', 'Ringkasan Surat', 'Keterangan', '07-07-2020', '14-07-2020', 'uploads/surat/glass2002.pdf', NULL, 1, 1, 2, 2, NULL, NULL),
+(4, 3, 'OII/899/MS/2020', 'sda', 'asd', 'asd', '16-07-2020', '16-07-2020', 'uploads/surat/16. DISKOMINFO.pdf', NULL, 1, 1, 2, 2, 1594897906, 1594897906);
 
 -- --------------------------------------------------------
 
@@ -412,28 +418,26 @@ CREATE TABLE `user` (
   `password` varchar(255) NOT NULL,
   `status` int(2) NOT NULL,
   `auth_key` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `certificate` varchar(255) DEFAULT NULL,
   `last_login_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
-  `updated_by` int(11) NOT NULL,
-  `x_level_user` int(1) DEFAULT NULL,
-  `x_email` varchar(32) DEFAULT NULL,
-  `x_verification_token` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `x_password_reset_token` varchar(255) DEFAULT NULL
+  `updated_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `jabatan_id`, `nama_lengkap`, `nip`, `username`, `password`, `status`, `auth_key`, `last_login_at`, `created_at`, `updated_at`, `created_by`, `updated_by`, `x_level_user`, `x_email`, `x_verification_token`, `x_password_reset_token`) VALUES
-(2, 1, 'Administartor', '123456789123456789', 'admin', '937f135ebf3ec6ecd1ef2045927b4f886f3b67649a898af1c00d3b070b5461933712d5a936823826890755bec115874eacfab111f73a52d569a48facf364bcc3', 1, NULL, NULL, 1594451736, 1594635025, 2, 0, NULL, NULL, NULL, NULL),
-(3, 1, 'Pejabat1', '123456789123456789', 'pejabat1', '588e97830807d70dd4ff7397e4f5b36207a1d023f6f1ba660de82e5fe8c5aa681abad3e21d83ed7e325cab076e7001ce7c32db42c8d07b8ae8042f56b7856175', 1, NULL, NULL, 1594526345, 1594647059, 2, 0, NULL, NULL, NULL, NULL),
-(4, 1, 'Pejabat2', '123456789123456789', 'pejabat2', '76dde58dc79493bf1e049d6d1efec5eb4e595297fccb8a3437201e0e197e111c7316369c9a8aed159ee70d12ccead80b1ac22f62ff2b2a1eb3bd87fc1f3c3e7b', 1, NULL, NULL, 1594625997, 1594625997, 2, 0, NULL, NULL, NULL, NULL),
-(5, 1, 'Pejabat 3', '789456123789456132', 'pejabat3', '5f81cc708446dc6e63e9e75dd0bb4c776b31c173eb389702df72ee5c87e39db9308e415be2d97f3da709288cace3397b8504342ea40bb4c77e6a43be64fcfefd', 1, NULL, NULL, 1594626027, 1594626027, 2, 0, NULL, NULL, NULL, NULL),
-(6, 1, 'Administrator', '123456789123456798', 'pengelola', '90eefed71824b204cc30c3c5900c8f7620eb766bbcebd908eb414f337210d650ea23b1422da06de3faf5640cb40f06fa00d5a6c82a531a608bd5dfe20734bb00', 1, NULL, NULL, 1594637229, 1594647215, 2, 0, NULL, NULL, NULL, NULL),
-(7, 1, 'Naleng', '123456789123456789', 'naleng', '57b94ed13c3d24b64b38c8e47962747b561cc6872abf7ab080a258807d51825711381da40adc1a7d051992cdd165587ae910053915be33b27100dba15c09ec77', 1, NULL, NULL, 1594718213, 1594734598, 2, 6, NULL, NULL, NULL, NULL);
+INSERT INTO `user` (`id`, `jabatan_id`, `nama_lengkap`, `nip`, `username`, `password`, `status`, `auth_key`, `certificate`, `last_login_at`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(2, 1, 'Administartor', '123456789123456789', 'admin', '937f135ebf3ec6ecd1ef2045927b4f886f3b67649a898af1c00d3b070b5461933712d5a936823826890755bec115874eacfab111f73a52d569a48facf364bcc3', 1, NULL, NULL, NULL, 1594451736, 1594635025, 2, 0),
+(3, 1, 'Pejabat1', '123456789123456789', 'pejabat1', '588e97830807d70dd4ff7397e4f5b36207a1d023f6f1ba660de82e5fe8c5aa681abad3e21d83ed7e325cab076e7001ce7c32db42c8d07b8ae8042f56b7856175', 1, NULL, 'uploads/certificate/agusedyc.p12', NULL, 1594526345, 1594647059, 2, 0),
+(4, 1, 'Pejabat2', '123456789123456789', 'pejabat2', '76dde58dc79493bf1e049d6d1efec5eb4e595297fccb8a3437201e0e197e111c7316369c9a8aed159ee70d12ccead80b1ac22f62ff2b2a1eb3bd87fc1f3c3e7b', 1, NULL, NULL, NULL, 1594625997, 1594625997, 2, 0),
+(5, 1, 'Pejabat 3', '789456123789456132', 'pejabat3', '5f81cc708446dc6e63e9e75dd0bb4c776b31c173eb389702df72ee5c87e39db9308e415be2d97f3da709288cace3397b8504342ea40bb4c77e6a43be64fcfefd', 1, NULL, NULL, NULL, 1594626027, 1594626027, 2, 0),
+(6, 1, 'Administrator', '123456789123456798', 'pengelola', '90eefed71824b204cc30c3c5900c8f7620eb766bbcebd908eb414f337210d650ea23b1422da06de3faf5640cb40f06fa00d5a6c82a531a608bd5dfe20734bb00', 1, NULL, NULL, NULL, 1594637229, 1594647215, 2, 0),
+(7, 1, 'Naleng', '123456789123456789', 'naleng', '57b94ed13c3d24b64b38c8e47962747b561cc6872abf7ab080a258807d51825711381da40adc1a7d051992cdd165587ae910053915be33b27100dba15c09ec77', 1, NULL, '', NULL, 1594718213, 1594734598, 2, 6),
+(8, 1, 'Agus Edy', '123456789123456789', 'agusedyc', 'ff5f6f0f064ae0be3a8c4ee41dfa7beeb1dddb160b56caf037e1b04358853288fd07eab431200ec598130f1ceca8a31039da62f0ca4b6bfb2ccc91da89a9d9fb', 1, NULL, 'uploads/certificate/agusedyc.p12', NULL, 1594952437, 1595150398, 2, 8);
 
 --
 -- Indexes for dumped tables
@@ -566,13 +570,13 @@ ALTER TABLE `publickey`
 -- AUTO_INCREMENT for table `surat_masuk`
 --
 ALTER TABLE `surat_masuk`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
