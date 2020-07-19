@@ -37,9 +37,14 @@ use dmstr\widgets\Alert;
 
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
-        <b>Version</b> 2.0
+        <!-- <b>Version</b> 0.0 -->
     </div>
-    <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+    <strong>Copyright &copy; 
+    <?php if (date('Y')==='2020'): ?>
+        2020
+    <?php else: ?>
+        2020 - <?= date('Y') ?>    
+    <?php endif ?>  Theme By <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
     reserved.
 </footer>
 
