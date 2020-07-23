@@ -6,10 +6,8 @@ composer.lock
 vendor/*
 
 # web/index.php
-
-web/uploads/letter/*
 web/uploads/surat/
+web/uploads/certificate/
 
 cert/
 
-web/uploads/certificate/
