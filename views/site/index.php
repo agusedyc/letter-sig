@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'APNDE PoltekSSN';
 ?>
 <div class="site-index">
 
@@ -14,6 +14,53 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="body-content">
+            <div class="row">
+                <div class="col-lg-4 col-xs-12">
+                  <!-- small box -->
+                  <div class="small-box bg-aqua">
+                    <div class="inner">
+                      <h3><?= $jmlSuratMasuk ?><sup style="font-size: 20px"> Surat</sup></h3>
+
+                      <p>Surat Masuk</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-bag"></i>
+                    </div>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-4 col-xs-12">
+                  <!-- small box -->
+                  <div class="small-box bg-green">
+                    <div class="inner">
+                      <h3><?= $sudahDisposisi ?><sup style="font-size: 20px"> Surat</sup></h3>
+
+                      <p>Surat Masuk Sudah Disposisi</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-4 col-xs-12">
+                  <!-- small box -->
+                  <div class="small-box bg-yellow">
+                    <div class="inner">
+                      <h3><?= $belumDisposisi ?> <sup style="font-size: 20px"> Surat</sup></h3>
+
+                      <p>Surat Masuk Belum Disposisi</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-person-add"></i>
+                    </div>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                  </div>
+                </div>
+                <!-- ./col -->
+              </div>
 
         <!-- <div class="row">
             <div class="col-lg-4">
