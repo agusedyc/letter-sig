@@ -77,6 +77,8 @@ $this->title = 'APNDE PoltekSSN';
       </div>
         </div>
 
+
+<?php if ($suratMasukSaya!=='0' && $sudahSayaDisposisi!=='0' && $belumSayaDisposisi!=='0'): ?>
     <div class="row">
         <div class="box box-warning">
         <div class="box-header with-border">
@@ -141,6 +143,8 @@ $this->title = 'APNDE PoltekSSN';
         
       </div>
     </div>
+<?php endif ?>
+    
             
 
         <!-- <div class="row">
