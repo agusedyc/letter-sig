@@ -9,14 +9,25 @@ $this->title = 'APNDE PoltekSSN';
     <div class="jumbotron">
         <p class="lead">Selamat Datang</p>
         <h1>APNDE PoltekSSN</h1>
-
-        <!-- <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p> -->
     </div>
 
     <div class="body-content">
-            <div class="row">
+        <div class="row">
+            <div class="box box-warning">
+        <div class="box-header with-border">
+          <h3 class="box-title">Semua Surat</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+          </div>
+          
+        </div>
+        
+        <div class="box-body">
+          <div class="row">
                 <div class="col-lg-4 col-xs-12">
-                  <!-- small box -->
+                  
                   <div class="small-box bg-aqua">
                     <div class="inner">
                       <h3><?= $jmlSuratMasuk ?><sup style="font-size: 20px"> Surat</sup></h3>
@@ -26,12 +37,12 @@ $this->title = 'APNDE PoltekSSN';
                     <div class="icon">
                       <i class="ion ion-bag"></i>
                     </div>
-                    <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                    
                   </div>
                 </div>
-                <!-- ./col -->
+                
                 <div class="col-lg-4 col-xs-12">
-                  <!-- small box -->
+                  
                   <div class="small-box bg-green">
                     <div class="inner">
                       <h3><?= $sudahDisposisi ?><sup style="font-size: 20px"> Surat</sup></h3>
@@ -41,12 +52,12 @@ $this->title = 'APNDE PoltekSSN';
                     <div class="icon">
                       <i class="ion ion-stats-bars"></i>
                     </div>
-                    <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                    
                   </div>
                 </div>
-                <!-- ./col -->
+                
                 <div class="col-lg-4 col-xs-12">
-                  <!-- small box -->
+                  
                   <div class="small-box bg-yellow">
                     <div class="inner">
                       <h3><?= $belumDisposisi ?> <sup style="font-size: 20px"> Surat</sup></h3>
@@ -56,11 +67,81 @@ $this->title = 'APNDE PoltekSSN';
                     <div class="icon">
                       <i class="ion ion-person-add"></i>
                     </div>
-                    <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                    
                   </div>
                 </div>
-                <!-- ./col -->
+                
               </div>
+        </div>
+        
+      </div>
+        </div>
+
+    <div class="row">
+        <div class="box box-warning">
+        <div class="box-header with-border">
+          <h3 class="box-title">Surat Saya</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+          </div>
+          
+        </div>
+        
+        <div class="box-body">
+          <div class="row">
+                <div class="col-lg-4 col-xs-12">
+                  
+                  <div class="small-box bg-aqua">
+                    <div class="inner">
+                      <h3><?= $suratMasukSaya ?><sup style="font-size: 20px"> Surat</sup></h3>
+
+                      <p>Surat Masuk</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-bag"></i>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+                <div class="col-lg-4 col-xs-12">
+                  
+                  <div class="small-box bg-green">
+                    <div class="inner">
+                      <h3><?= $sudahSayaDisposisi ?><sup style="font-size: 20px"> Surat</sup></h3>
+
+                      <p>Surat Masuk Sudah Disposisi</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-stats-bars"></i>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+                <div class="col-lg-4 col-xs-12">
+                  
+                  <div class="small-box bg-yellow">
+                    <div class="inner">
+                      <h3><?= $belumSayaDisposisi ?> <sup style="font-size: 20px"> Surat</sup></h3>
+
+                      <p>Surat Masuk Belum Disposisi</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-person-add"></i>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+        </div>
+        
+      </div>
+    </div>
+            
 
         <!-- <div class="row">
             <div class="col-lg-4">
