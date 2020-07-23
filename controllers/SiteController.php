@@ -3,12 +3,13 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\ContactForm;
+use app\models\LoginForm;
+use app\models\SuratMasuk;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -69,12 +70,30 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('warning', 'Silahkan Ganti Password dan Upload File Certificate P12');
                 return $this->redirect(['user/update', 'id' => Yii::$app->user->id]);
         }
+        $suratMasuk = SuratMasuk::find();
+        $jmlSuratMasuk = $suratMasuk->count();
+        $sudahDisposisi = 0;
+        $belumDisposisi = 0;
+        foreach ($suratMasuk->all() as $value) {
+            if (!empty($value->disposisi)) {
+                // echo 'Tersidposisi';   
+                $sudahDisposisi++;
+            }else{
+                // echo 'Belum Disposisi';
+                $belumDisposisi++;
+            }
+        }
+
         // echo '<pre>';
         // print_r(Yii::$app->user->identity->created_by);
         // echo '<br>';
-        // print_r(Yii::$app->user->identity->updated_by);
+        // print_r($suratTerdisposisi);
         // echo '</pre>';
-        return $this->render('index');
+        return $this->render('index',[
+            'jmlSuratMasuk' => $jmlSuratMasuk,
+            'sudahDisposisi' => $sudahDisposisi,
+            'belumDisposisi' => $belumDisposisi,
+        ]);
     }
 
     /**
