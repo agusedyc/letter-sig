@@ -84,6 +84,19 @@ class SiteController extends Controller
             }
         }
 
+        $sudahSayaDisposisi = 0;
+        $belumSayaDisposisi = 0;
+        $suratMasukSaya = $suratMasuk->where(['tujuan_dispo_id' => Yii::$app->user->identity->id])->count();
+        foreach ($suratMasuk->where(['tujuan_dispo_id' => Yii::$app->user->id])->all() as $value) {
+            if (!empty($value->disposisi)) {
+                // echo 'Tersidposisi';   
+                $sudahSayaDisposisi++;
+            }else{
+                // echo 'Belum Disposisi';
+                $belumSayaDisposisi++;
+            }
+        }
+
         // echo '<pre>';
         // print_r(Yii::$app->user->identity->created_by);
         // echo '<br>';
@@ -93,6 +106,9 @@ class SiteController extends Controller
             'jmlSuratMasuk' => $jmlSuratMasuk,
             'sudahDisposisi' => $sudahDisposisi,
             'belumDisposisi' => $belumDisposisi,
+            'suratMasukSaya' => $suratMasukSaya,
+            'sudahSayaDisposisi' => $sudahSayaDisposisi,
+            'belumSayaDisposisi' => $belumSayaDisposisi,
         ]);
     }
 
