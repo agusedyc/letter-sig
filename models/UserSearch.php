@@ -23,7 +23,8 @@ class UserSearch extends User
 		return [
             [['id'], 'integer'],
             [['nama_lengkap','nip','username','certificate'],'string'],
-            [['status', 'username', 'password', 'auth_key', 'password_reset_token', 'account_activation_token', 'created_at', 'updated_at'], 'safe'],
+            [['status', 'username', 'password', 'auth_key', 'password_reset_token', 'account_activation_token'], 'safe'],
+            // , 'created_at', 'updated_at'
         ];
 	}
 
