@@ -55,14 +55,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->tujuan->nama_lengkap;
                 },
             ],
-            [
-                'label' => 'Disposisi',
-                'attribute' => 'ringkas_dispo',
-                'format' => 'raw',
-                'value' =>  function($model){
-                    return $model->ringkas_dispo;
-                },
-            ],
+            // [
+            //     'label' => 'Disposisi',
+            //     'attribute' => 'ringkas_dispo',
+            //     'format' => 'raw',
+            //     'value' =>  function($model){
+            //         return $model->ringkas_dispo;
+            //     },
+            // ],
             'keterangan',
             [
                 'label' => 'Status Disposisi',
