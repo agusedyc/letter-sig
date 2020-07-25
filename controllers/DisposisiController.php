@@ -95,7 +95,7 @@ class DisposisiController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->surat_masuk_id = $findDisposisi->surat_masuk_id;
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);   
             }
         }
@@ -130,7 +130,7 @@ class DisposisiController extends Controller
             // Encript Disposisi By Create
             // $model->ringkas_dispo = $model->letterEncrypt($this->ringkas_dispo,$this->dibuat->password,$this->tujuan->password);
             $model->surat_masuk_id = $id;
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);   
             }
         }
@@ -165,7 +165,7 @@ class DisposisiController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             // $model->ringkas_dispo = $model->letterEncrypt($model->ringkas_dispo,Yii::$app->user->identity->password,User::findOne($model->tujuan_id)->password);
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);    
             }
         }
