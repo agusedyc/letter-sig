@@ -17,8 +17,10 @@ class SuratMasukSearch extends SuratMasuk
     public function rules()
     {
         return [
-            [['id', 'tujuan_dispo_id', 'no_surat', 'tgl_surat', 'tgl_terima', 'id_keamanan', 'id_kecepatan'], 'integer'],
+            [['id', 'tujuan_dispo_id', 'tgl_terima', 'id_keamanan', 'id_kecepatan'], 'integer'],
             [['asal_surat', 'ringkas_surat', 'keterangan', 'file', 'path_file'], 'safe'],
+            [['no_surat'],'string']
+            // 'tgl_surat',
         ];
     }
 

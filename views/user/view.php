@@ -89,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     
-
+<?php if (Yii::$app->user->identity->roles[0]->item_name==='Pengelola'): ?>
     <?php $form = ActiveForm::begin([]); ?>
     <?php
     echo $form->field($authAssignment, 'item_name')->widget(Select2::classname(), [
@@ -110,5 +110,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </div>
     <?php ActiveForm::end(); ?>
+<?php endif ?>
 
 </div>

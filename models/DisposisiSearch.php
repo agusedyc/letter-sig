@@ -17,8 +17,9 @@ class DisposisiSearch extends Disposisi
     public function rules()
     {
         return [
-            [['id', 'tgl_terima', 'tujuan_id', 'id_keamanan', 'id_kecepatan', 'surat_masuk_id'], 'integer'],
+            [['id', 'tujuan_id', 'id_keamanan', 'id_kecepatan', 'surat_masuk_id'], 'integer'],
             [['ringkas_dispo', 'keterangan'], 'safe'],
+            // , 'tgl_terima'
         ];
     }
 
