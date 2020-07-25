@@ -75,24 +75,21 @@ class UserController extends Controller
 
         if (Yii::$app->request->post()) {
             $authAssignment->load(Yii::$app->request->post());
+            $user_id = $model->id;
             // delete all role
-            AuthAssignment::deleteAll(['user_id' => $model->id]);
+            AuthAssignment::deleteAll(['user_id' => $user_id]);
             if (is_array($authAssignment->item_name)) {
                 foreach ($authAssignment->item_name as $item) {
-                    if (!in_array($item, $authAssignments)) {
-                        $authAssignment2 = new AuthAssignment([
-                            'user_id' => $model->id,
-                        ]);
+                    // if (!in_array($item, $authAssignments)) {
+                    // if (!in_array($item, $authAssignments)) {
+                        $authAssignment2 = new AuthAssignment(['user_id' => $user_id]);
                         $authAssignment2->item_name = $item;
                         $authAssignment2->created_at = time();
                         $authAssignment2->save();
-
-                        $authAssignments = AuthAssignment::find()->where([
-                            'user_id' => $model->id,
-                        ])->column();
-                    }
+                    // }
                 }
             }
+            // End AuthAssignment
             Yii::$app->session->setFlash('success', 'Data tersimpan');
         }
         $authAssignment->item_name = $authAssignments;
