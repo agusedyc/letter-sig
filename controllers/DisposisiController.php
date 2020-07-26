@@ -272,8 +272,6 @@ class DisposisiController extends Controller
 
         // Close and output PDF document
         // This method has several options, check the source code documentation for more information.
-        $pdf->Output('Disposisi Surat No :'.$surat->no_surat.' Oleh : '.$model->dibuat->nama_lengkap.'.pdf', 'S');
-
-        
+        $pdf->Output('Disposisi Surat No :'.$surat->no_surat.' Oleh : '.$model->dibuat->nama_lengkap.'.pdf', 'D');
     }
 }
