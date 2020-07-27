@@ -29,6 +29,7 @@ class Keamanan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['keamanan'], 'required'],
             [['keamanan'], 'string', 'max' => 100],
         ];
     }
