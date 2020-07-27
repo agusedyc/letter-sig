@@ -17,7 +17,8 @@ class KeamananSearch extends Keamanan
     public function rules()
     {
         return [
-            [['id', 'keamanan'], 'integer'],
+            [['id'], 'integer'],
+            [['keamanan'], 'safe'],
         ];
     }
 
