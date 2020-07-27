@@ -39,7 +39,7 @@ class SuratMasukController extends Controller
     {
         $searchModel = new SuratMasukSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['tujuan_dispo_id' => Yii::$app->user->id]);
+        $dataProvider->query->andFilterWhere(['tujuan_dispo_id' => Yii::$app->user->id]);
 
         return $this->render('disposisi', [
             'searchModel' => $searchModel,

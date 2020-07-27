@@ -67,9 +67,9 @@ class SuratMasuk extends \yii\db\ActiveRecord
     {
         return [
             [['tujuan_dispo_id', 'id_keamanan', 'id_kecepatan','created_at','updated_at','created_by','updated_by'], 'integer'],
-            [['asal_surat', 'ringkas_surat', 'keterangan', 'tgl_surat', 'tgl_terima', 'id_keamanan', 'id_kecepatan'], 'required'],
+            [['asal_surat','no_surat', 'ringkas_surat', 'keterangan', 'tgl_surat', 'tgl_terima', 'id_keamanan', 'id_kecepatan'], 'required'],
             [['asal_surat', 'keterangan', 'tgl_surat', 'tgl_terima','no_surat'], 'string', 'max' => 100],
-            [['ringkas_surat', 'file','no_surat'], 'string', 'max' => 300],
+            [['ringkas_surat', 'file'], 'string', 'max' => 300],
             // [['path_file'], 'string', 'max' => 255],
             [['file'], 'file','skipOnEmpty' => true, 'extensions' => 'pdf'],
             [['id_keamanan'], 'exist', 'skipOnError' => true, 'targetClass' => Keamanan::className(), 'targetAttribute' => ['id_keamanan' => 'id']],
